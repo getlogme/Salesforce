@@ -1,0 +1,17 @@
+<apex:page standardController="Contact" extensions="ContactRoles">
+    
+     <apex:detail subject="{!contact}" relatedList="false" title="true"/>
+    
+    <apex:relatedList subject="{!contact}" list="OpenActivities"/>
+    <apex:relatedList subject="{!contact}" list="ActivityHistories"/>
+    <apex:pageBlock > 
+        <apex:pageBlockTable value="{!ContactRoles}" var="role">
+        <apex:column headerValue="Contact Name" value="{!role.contactId}"/>
+        <apex:column headerValue="Role" value="{!role.role}"/>
+        <apex:column headerValue="Primary" value="{!role.IsPrimary}"/>
+
+
+    </apex:pageBlockTable>
+    </apex:pageBlock>
+
+</apex:page>

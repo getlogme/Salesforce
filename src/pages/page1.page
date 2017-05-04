@@ -1,0 +1,11 @@
+<apex:page Controller="MyClass">
+
+<apex:form >
+
+<apex:inputCheckbox value="{!isSelected}" />select me
+
+<apex:commandButton action="{!goToNextPage}" value="Next Page" />
+
+</apex:form> 
+
+</apex:page>

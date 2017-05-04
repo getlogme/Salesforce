@@ -1,0 +1,18 @@
+<apex:page controller="AccountPageBlockController">
+    <apex:form > 
+        <apex:pageBlock mode="inlineEdit">
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Save" action="{!save}" id="saveButton"/>
+                <apex:commandButton value="Cancel" action="{!cancel}" id="cancelButton"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!accounts}" var="a">
+                <apex:column >
+                    <apex:facet name="header">Account Name</apex:facet>
+                    <apex:outputField value="{!a.Name}" />
+                </apex:column> 
+                <apex:inlineEditSupport showOnEdit="saveButton,cancelButton" event="ondblclick"  resetFunction="resetInlineEdit" changedStyleClass="myBoldClass"/> 
+            </apex:pageBlockTable>
+            
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>

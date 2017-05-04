@@ -1,0 +1,28 @@
+<apex:page standardController="Account" extensions="AccountActivityController">
+  <apex:pageBlock title="Activity History" rendered="{!CurrentActivityHistory != null}">
+    <apex:pageBlockTable value="{!CurrentActivityHistory}" var="act">
+      
+      <apex:column >
+        <apex:facet name="header">Subject</apex:facet>
+        <apex:outputLabel value="{!act.Subject}"/>
+      </apex:column>
+      <apex:column >
+        <apex:facet name="header">Comments</apex:facet>
+        <apex:outputLabel value="{!act.Description}"/>
+      </apex:column>
+      <apex:column >
+        <apex:facet name="header">Status</apex:facet>
+        <apex:outputLabel value="{!act.Status}"/>
+      </apex:column>
+      <apex:column >
+        <apex:facet name="header">Log Date/Time111</apex:facet>
+        <apex:outputLabel value="{!act.TempDate__c}"/>
+      </apex:column>
+      <apex:column >
+        <apex:facet name="header">Log Date/Time</apex:facet>
+        <apex:outputLabel value="{!act.ActivityDate}"/>
+      </apex:column>
+      
+    </apex:pageBlockTable>
+  </apex:pageBlock>
+</apex:page>

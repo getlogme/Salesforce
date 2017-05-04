@@ -1,0 +1,20 @@
+<apex:page controller="SendEmail1">
+    <apex:form > 
+    <apex:pageBlock >
+        <apex:pageBlockButtons >
+            <apex:commandButton action="{!save}" value="Save"/>
+            <apex:commandButton action="{!send}" value="Send"/>
+            <apex:commandButton action="{!cancel}" value="Cancel"/>
+        </apex:pageBlockButtons>
+        <apex:pageBlockSection collapsible="false" columns="1">
+            <apex:pageBlockSectionItem >
+                <apex:outputLabel >From : </apex:outputLabel>
+                <apex:selectList value="{!selFrom}" size="1">
+                    <apex:selectOptions value="{!orgWideEmailAddress}"></apex:selectOptions>
+                </apex:selectList>
+            </apex:pageBlockSectionItem>
+        
+        </apex:pageBlockSection>
+    </apex:pageBlock> 
+    </apex:form>
+</apex:page>

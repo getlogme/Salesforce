@@ -1,0 +1,5 @@
+<apex:page controller="JSONFrameworkController" action="{!init}">
+    <apex:pageBlock >
+        {!uaList}
+    </apex:pageBlock>
+</apex:page>

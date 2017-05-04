@@ -1,0 +1,47 @@
+<apex:page controller="CreateBulkController">
+    <apex:form >
+    <apex:pageBlock >
+        <apex:pageBlockButtons >
+            <apex:commandButton value="Add Account" action="{!addNewAccount}" reRender="pbTable"/>
+            <apex:commandButton value="Save" action="{!saveAccounts}"/>
+        </apex:pageBlockButtons>
+        <apex:pageBlockTable value="{!conMemberList}" var="member" id="pbTable1" title="Members">
+            <apex:column >
+                <apex:facet name="header">Select</apex:facet>
+                <apex:inputCheckbox value="{!member.selected}"/>
+            </apex:column>
+            <apex:column >
+                <apex:facet name="header">Account</apex:facet>
+                <apex:inputField value="{!member.cont.Account__c}" required="true"/>
+            </apex:column>
+            <apex:column >
+                <apex:facet name="header">Shipping Account</apex:facet>
+                <apex:inputField value="{!member.cont.Shipping_Account__c}"/>
+            </apex:column>
+            <apex:column >
+                <apex:facet name="header">Billing Account</apex:facet>
+                <apex:inputField value="{!member.cont.Billing_Account__c}"/>
+            </apex:column>
+        </apex:pageBlockTable>
+        <apex:pageBlockTable value="{!conList}" var="con" id="pbTable">
+            <apex:column >
+                <apex:facet name="header">Select</apex:facet>
+                <apex:inputCheckbox value="{!con.selected}"/>
+            </apex:column>
+            <apex:column >
+                <apex:facet name="header">Account</apex:facet>
+                <apex:inputField value="{!con.cont.Account__c}" required="true"/>
+            </apex:column>
+            <apex:column >
+                <apex:facet name="header">Shipping Account</apex:facet>
+                <apex:inputField value="{!con.cont.Shipping_Account__c}"/>
+            </apex:column>
+            <apex:column >
+                <apex:facet name="header">Billing Account</apex:facet>
+                <apex:inputField value="{!con.cont.Billing_Account__c}"/>
+            </apex:column>
+        </apex:pageBlockTable>
+        
+    </apex:pageBlock> 
+    </apex:form> 
+</apex:page>

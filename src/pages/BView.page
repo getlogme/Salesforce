@@ -1,0 +1,30 @@
+<apex:page controller="TimeSheetContView" >
+<apex:form id="test"> 
+<apex:pageBlock title="A View Page">
+<apex:pageBlockButtons >
+<apex:commandButton action="{!edit}" value="Edit" reRender="test">
+<apex:param name="pickValVE" assignTo="{!pickValVE}" value="{!listObj1.picklist__c}"/>
+<apex:param name="recId" assignTo="{!recId}" value="{!listObj1.id}"/>
+
+</apex:commandButton>
+<apex:commandButton action="{!cancel}" value="Cancel"/>
+</apex:pageBlockButtons>
+<apex:pageBlockSection columns="2">
+<apex:pageBlockSectionItem >
+ B1 : <apex:outputField value="{!listObj1.B1__c}"/> 
+</apex:pageBlockSectionItem>
+<apex:pageBlockSectionItem >
+B2 : <apex:outputField value="{!listObj1.B2__c}"/> 
+</apex:pageBlockSectionItem>
+<apex:pageBlockSectionItem >
+B3 : <apex:outputField value="{!listObj1.B3__c}"/> 
+</apex:pageBlockSectionItem>
+<apex:pageBlockSectionItem >
+B4 : <apex:outputField value="{!listObj1.B4__c}"/> 
+</apex:pageBlockSectionItem>
+
+</apex:pageBlockSection>
+
+</apex:pageBlock>
+</apex:form>  
+</apex:page>

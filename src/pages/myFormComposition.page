@@ -1,0 +1,8 @@
+<apex:page >
+    <apex:form > 
+        <apex:outputText value="(template) This is before the header"/><br/>
+        <apex:insert name="header"/><br/>
+        <apex:outputText value="(template) This is between the header and body"/><br/>
+        <apex:insert name="body"/>
+    </apex:form>
+</apex:page>

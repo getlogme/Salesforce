@@ -1,0 +1,81 @@
+<apex:page controller="StudentDetailsController" >
+ <link rel="Stylesheet" type="text/css" href="{!$Resource.extjs}/ext-3.1.1/resources/css/ext-all.css" />
+ <script type="text/javascript" src="{!$Resource.extjs}/ext-3.1.1/adapter/ext/ext-base.js"></script>
+ <script type="text/javascript" src="{!$Resource.extjs}/ext-3.1.1/ext-all.js"></script>
+ <script type="text/javascript" src="{!$Resource.ExtJsRowEditor}"></script>
+ 
+<script type="text/javascript">
+Ext.onReady(function(){
+//Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
+
+  
+
+var myDataString = 'var myData = [ ';
+<apex:repeat value="{!studentDetails}" var="con" id="ContactRepeat">
+myDataString += "['{!con.name}','{!con.Student_Name__c}','{!con.Course_Name__c}','{!con.marks__c}','{!con.Grade__c}'],";
+</apex:repeat>
+myDataString += "['','','','',''] ];";
+eval(myDataString);
+
+ var Student= Ext.data.Record.create([{
+        name: 'name',
+        type: 'string'
+    }, {
+        name: 'testNameSpacema__Student_Name__c',
+        type: 'string'
+    }, {
+        name: 'testNameSpacema__Course_Name__c',
+        type: 'string'       
+    },{
+        name: 'testNameSpacema__marks__c',
+        type: 'string'
+    },{
+        name: 'testNameSpacema__Grade__c',
+        type: 'string'
+    }]);
+
+
+var store = new Ext.data.GroupingStore({
+        reader: new Ext.data.JsonReader({fields: Student}),
+        sortInfo: {field: 'name', direction: 'ASC'}
+    });
+
+var editor = new Ext.ux.grid.RowEditor({
+        saveText: 'Update'
+    });
+
+ //var store = new Ext.data.SimpleStore({fields:[{name:'name'},{name:'testNameSpacema__Student_Name__c'},{name:'testNameSpacema__Course_Name__c'},{name:'testNameSpacema__marks__c'},{name:'testNameSpacema__Grade__c'}]});
+store.loadData(myData);
+// CREATE THE GRID
+var grid = new Ext.grid.GridPanel({
+store: store, 
+columns: [
+new Ext.grid.RowNumberer(),
+{id: 'name', header: "name", width: 200, sortable: true, dataIndex: 'name', editor: {xtype: 'textfield',allowBlank: false}},
+{id: 'testNameSpacema__Student_Name__c', header: "Full Name", width: 200, sortable: true, dataIndex: 'testNameSpacema__Student_Name__c', editor: {xtype: 'textfield',allowBlank: false}},
+{id: 'testNameSpacema__Course_Name__c', header: "Course Name", width: 150, sortable: true, dataIndex: 'testNameSpacema__Course_Name__c', editor: {xtype: 'textfield',allowBlank: false}},
+{id: 'testNameSpacema__marks__c', header: "Marks", width: 100, sortable: true, dataIndex: 'testNameSpacema__marks__c', editor: {xtype: 'textfield',allowBlank: false}},
+{id: 'testNameSpacema__Grade__c', header: "Grade", width: 100, sortable: true, dataIndex: 'testNameSpacema__Grade__c', editor: {xtype: 'textfield',allowBlank: false}}
+
+],
+stripeRows:true, 
+ height: 500, 
+ width: 750, 
+ title: 'MY EXT JS STUDENTS LIST',
+ region:'center',
+ margins: '0 5 5 5',
+ autoExpandColumn: 'name',
+ plugins: [editor],
+ view: new Ext.grid.GroupingView({
+            markDirty: false
+        }),
+ }); 
+
+grid.render('myStudentList-grid');
+//grid.getSelectionModel().selectFirstRow();
+});
+</script> 
+
+<div id="myStudentList-grid"></div>
+ 
+ </apex:page>

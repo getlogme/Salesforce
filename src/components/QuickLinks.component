@@ -1,0 +1,19 @@
+<apex:component >
+  <table width="100%">
+      <tr>
+          <td> <a href="www.google.com">Google</a></td>
+      </tr>
+      <tr>
+          <td> <a href="www.test.com">Test</a></td>
+      </tr>
+        <tr>
+          <td> <a href="www.msn.com">MSN</a></td>
+         </tr>
+<tr>
+          <td> <a href="www.force.com">SalesForce</a></td>
+          
+      </tr>
+
+      
+  </table>
+</apex:component>

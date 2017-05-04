@@ -1,0 +1,52 @@
+<apex:page controller="Makingmandatory" id="thePage">
+<script language="javascript">
+    function validate(){
+        var e=document.getElementById('thePage:theForm:pBlk:pBlkSct:pBlkSctItm4:four');
+        var firstVal=document.getElementById('thePage:theForm:pBlk:pBlkSct:pBlkSctItm1:first').value;
+        var secondVal=document.getElementById('thePage:theForm:pBlk:pBlkSct:pBlkSctItm2:second').value;
+        var thirdVal=document.getElementById('thePage:theForm:pBlk:pBlkSct:pBlkSctItm3:third').value;
+        
+        if(e.value=='First' && firstVal==''){
+            alert('Please Enter the First Text Value');
+            return false;
+        }else if(e.value=='Second' && secondVal==''){
+            alert('Please Enter the Second Text Value');
+            return false;
+        }else if(e.value=='Third' && thirdVal==''){
+            alert('Please Enter the Third Text Value');
+            return false;
+        }
+        return true;
+    }
+</script>
+  <apex:form id="theForm"> 
+  <apex:pageBlock id="pBlk">
+      <apex:pageBlockButtons >
+          <apex:commandButton action="{!method1}" value="Submit" onclick="return validate()"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockSection id="pBlkSct" >
+          <apex:pageBlockSectionItem id="pBlkSctItm1">
+              <apex:outputLabel >First :</apex:outputLabel>
+              <apex:inputText value="{!first}" id="first"/>
+          </apex:pageBlockSectionItem>
+          <apex:pageBlockSectionItem id="pBlkSctItm2">
+              <apex:outputLabel >Second :</apex:outputLabel>
+              <apex:inputText value="{!second}" id="second"/>
+          </apex:pageBlockSectionItem>
+          <apex:pageBlockSectionItem id="pBlkSctItm3">
+              <apex:outputLabel >Third :</apex:outputLabel>
+              <apex:inputText value="{!third}" id="third"/>
+          </apex:pageBlockSectionItem>
+          <apex:pageBlockSectionItem id="pBlkSctItm4"> 
+              <apex:outputLabel >Four:</apex:outputLabel>
+              <apex:selectList value="{!four}" id="four" size="1">
+                  <apex:selectOption itemLabel="Select Value" itemValue="Select Value" ></apex:selectOption>
+                  <apex:selectOption itemLabel="First" itemValue="First" ></apex:selectOption>
+                  <apex:selectOption itemLabel="Second" itemValue="Second" ></apex:selectOption>
+                  <apex:selectOption itemLabel="Third" itemValue="Third" ></apex:selectOption>
+              </apex:selectList>
+          </apex:pageBlockSectionItem>
+      </apex:pageBlockSection>
+  </apex:pageBlock>
+  </apex:form>
+</apex:page>

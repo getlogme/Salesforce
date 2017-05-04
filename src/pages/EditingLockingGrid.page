@@ -1,0 +1,82 @@
+<apex:page controller="StudentDetailsController" >
+<link rel="Stylesheet" type="text/css" href="{!$Resource.extjs}/ext-3.1.1/resources/css/ext-all.css" />
+ <link rel="Stylesheet" type="text/css" href="{!$Resource.lockingcss}" />
+ <script type="text/javascript" src="{!$Resource.extjs}/ext-3.1.1/adapter/ext/ext-base.js"></script>
+ <script type="text/javascript" src="{!$Resource.extjs}/ext-3.1.1/ext-all.js"></script>
+ <script type="text/javascript" src="{!$Resource.extjs}/ext-3.1.1/ext-all-debug.js"></script>
+ <script type="text/javascript" src="{!$Resource.RowEditorTest}"></script>
+ <script type="text/javascript" src="{!$Resource.locking}"></script>
+  
+<script type="text/javascript">
+Ext.onReady(function(){
+var Checkbox = new Ext.grid.CheckboxSelectionModel();
+Checkbox.locked=true;
+var editor = new Ext.ux.grid.RowEditor({
+  
+  listeners: {
+     afteredit: function(object, changes, r, rowIndex) {
+     // Make a simple save in your store (if you have a writer defined)
+     //store.save();
+     // Do custom things
+     var cm = object.grid.colModel, fields = object.items.items;
+     updaterecord(fields[0].getValue(),fields[1].getValue(),fields[2].getValue(),fields[3].getValue(),fields[4].getValue());         
+     //for(var i = 0, len = cm.getColumnCount(); i < len; i++){
+              //  var dindex = cm.getDataIndex(i);
+              //   var value = fields[i].getValue();
+               // alert ('Field and value '+dindex+' '+value);  
+               // updaterecord(value);         
+       // }
+      
+        }
+    }
+        
+    });
+
+
+//Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
+var myDataString = 'var myData = [';
+<apex:repeat value="{!studentDetails}" var="con" id="ContactRepeat">
+myDataString += "['{!con.name}','{!con.Student_Name__c}','{!con.Course_Name__c}','{!con.marks__c}','{!con.Grade__c}'],";
+</apex:repeat>
+myDataString += "['','','','',''] ];";
+eval(myDataString);
+var store = new Ext.data.SimpleStore({fields:[{name:'name'},{name:'testNameSpacema__Student_Name__c'},{name:'testNameSpacema__Course_Name__c'},{name:'testNameSpacema__marks__c'},{name:'testNameSpacema__Grade__c'}]});
+store.loadData(myData);
+
+
+// CREATE THE GRID
+var grid = new Ext.grid.GridPanel({store: store, forceFit: false , sm:Checkbox, colModel: new Ext.ux.grid.LockingColumnModel([Checkbox,
+{id: 'name', header: 'name', width: 200, sortable: true, dataIndex:'name', locked: true},
+{id: 'testNameSpacema__Student_Name__c', header: 'Full Name', width: 200, sortable: true, dataIndex: 'testNameSpacema__Student_Name__c', editor: {xtype: 'textfield',allowBlank: false}},
+{id: 'testNameSpacema__Course_Name__c', header: 'Course Name', width: 150, sortable: true, dataIndex: 'testNameSpacema__Course_Name__c', editor: {xtype: 'textfield',allowBlank: false}},
+{id: 'testNameSpacema__marks__c', header: 'Marks', width: 100, sortable: true, dataIndex: 'testNameSpacema__marks__c', editor: {xtype: 'textfield',allowBlank: false}},
+{id: 'testNameSpacema__Grade__c', header: 'Grade', width: 100, sortable: true, dataIndex: 'testNameSpacema__Grade__c', editor: {xtype: 'textfield',allowBlank: false}}
+]),
+stripeRows:true, view: new Ext.ux.grid.LockingGridView(), plugins: [editor], height: 500, width: 750, title: 'MY EXT JS STUDENTS LIST'}); 
+
+grid.render('myStudentList-grid');
+grid.getSelectionModel().selectFirstRow();
+
+
+});
+
+Ext.override(Ext.grid.CheckboxSelectionModel{
+         isLocked :function(colIndex){
+        if(this.config[colIndex] instanceof Ext.grid.CheckboxSelectionModel){return true;}
+                return this.config[colIndex].locked === true;
+         }
+});
+</script> 
+<apex:form id="FormId">
+    <apex:actionFunction action="{!updaterecord}" name="updaterecord" reRender="FormId">
+        <apex:param assignTo="{!name}" name="name" value=""/>
+        <apex:param assignTo="{!fullName}" name="fullName" value=""/>
+        <apex:param assignTo="{!courseName}" name="courseName" value=""/>
+        <apex:param assignTo="{!marks}" name="marks" value=""/>
+        <apex:param assignTo="{!grade}" name="grade" value=""/>
+    </apex:actionFunction>
+    </apex:form>
+
+<div id="myStudentList-grid"></div>
+  
+ </apex:page>

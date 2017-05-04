@@ -1,0 +1,81 @@
+<apex:page controller="twinBoxMultiSelectList_Ctlr" showHeader="false" sidebar="false">
+<apex:includeScript value="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js" />
+<apex:includeScript value="{!URLFOR($Resource.twinBoxMultiSelectList, 'ulPickList.js')}"/>
+<apex:stylesheet value="{!URLFOR($Resource.twinBoxMultiSelectList, 'ulPickList.css')}"/>
+<style>
+.boldLabel {
+font-weight : bold;
+font-size : 110%;
+}
+</style>
+<apex:sectionHeader subtitle="Twin Box Multi Select List" title="Demo"/>
+<apex:form id="contactForm">
+<apex:pageBlock id="pb">
+<apex:pageBlockButtons location="top">
+<apex:commandButton action="{!onContactSelection}" value="Done Selecting" reRender="contactForm"/>
+</apex:pageBlockButtons>
+<apex:selectList id="contactPickList" value="{!selectedContactIds}" multiselect="true">
+    <apex:selectOptions value="{!contactOptions}"/>
+</apex:selectList>
+<apex:pageBlockSection columns="1" title="Search Contacts">
+<apex:outputPanel >
+<input type="text" value="" id="searchTextBox"/>
+</apex:outputPanel>
+</apex:pageBlockSection>
+ 
+<apex:pageBlockSection id="pbs_contacts" columns="1" title="Select Contacts">
+<apex:pageMessage summary="Please click on the Contact name in the lists to swap" severity="info" strength="1" />
+<table>
+<tr> <td><apex:outputLabel value="Available Contacts" styleClass="boldLabel"/></td>  
+     <td></td>
+     <td><apex:outputLabel value="Selected Contacts" styleClass="boldLabel"/></td>
+</tr>
+<tr> <td> <apex:outputPanel id="availableContactsContainer" /> </td> 
+     <td> <a href="#" onclick="moveSelectecdItems('sourceList', 'destList')">&gt;&gt;</a> <br/>
+          <a href="#" onclick="moveSelectecdItems('destList', 'sourceList')">&lt;&lt;</a>
+ </td>
+     <td> <apex:outputPanel id="selectedContactsContainer" /> </td>
+</tr>
+</table>
+<apex:panelGrid columns="2">
+</apex:panelGrid>
+</apex:pageBlockSection>
+<apex:pageBlockSection title="Selected Contacts">
+<apex:pageBlockTable value="{!selectedContacts}" var="selCon" rendered="{!NOT(ISBLANK(selectedContacts))}">
+<apex:column value="{!selCon.Id}"/>
+<apex:column value="{!selCon.Name}"/>
+</apex:pageBlockTable>
+</apex:pageBlockSection>
+</apex:pageBlock>
+<script type="text/javascript">
+function moveSelectecdItems(sourceID, destID) {
+    var src = document.getElementById(sourceID);
+    var dest = document.getElementById(destID);
+ 
+    for(var count=0; count < src.options.length; count++) { 
+        if(src.options[count].selected == true) {
+                var option = src.options[count]; 
+                var newOption = document.createElement("option");
+                newOption.value = option.value;
+                newOption.text = option.text;
+                newOption.selected = true;
+                try {
+                         dest.add(newOption, null); //Standard
+                         src.remove(count, null);
+                 }catch(error) {
+                         dest.add(newOption); // IE only
+                         src.remove(count);
+                 }
+                count--;
+        }
+    }
+}
+ function selectAllOptions(listBoxID, isSelect) {
+        var listbox = document.getElementById(listBoxID);
+        for(var count=0; count < listbox.options.length; count++) {
+            listbox.options[count].selected = isSelect;
+    }
+}
+</script>
+</apex:form>
+</apex:page>

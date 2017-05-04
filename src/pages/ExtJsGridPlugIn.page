@@ -1,0 +1,62 @@
+<apex:page controller="StudentDetailsController" >
+ <link rel="Stylesheet" type="text/css" href="{!$Resource.extjs}/ext-3.1.1/resources/css/ext-all.css" />
+ <script type="text/javascript" src="{!$Resource.extjs}/ext-3.1.1/adapter/ext/ext-base.js"></script>
+ <script type="text/javascript" src="{!$Resource.extjs}/ext-3.1.1/ext-all.js"></script>
+ 
+<script type="text/javascript">
+Ext.onReady(function(){
+//Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
+var myDataString = 'var myData = [ ';
+<apex:repeat value="{!studentDetails}" var="con" id="ContactRepeat">
+myDataString += "['{!con.name}','{!con.Student_Name__c}','{!con.Course_Name__c}','{!con.marks__c}','{!con.Grade__c}'],";
+</apex:repeat>
+myDataString += "['','','','',''] ];";
+eval(myDataString);
+var store = new Ext.data.SimpleStore({fields:[{name:'name'},{name:'testNameSpacema__Student_Name__c'},{name:'testNameSpacema__Course_Name__c'},{name:'testNameSpacema__marks__c'},{name:'testNameSpacema__Grade__c'}]});
+store.loadData(myData);
+
+ var expander = new Ext.ux.grid.RowExpander({
+        tpl : new Ext.Template(
+            '<p><b>Country:</b> { testNameSpacema__Course_Name__c }</p><br>'
+                    )
+    });
+
+// CREATE THE GRID
+var grid = new Ext.grid.GridPanel({
+store:store,
+cm: new xg.ColumnModel({
+            defaults: {
+                width: 20,
+                sortable: true
+            },
+            columns: [
+                expander,
+                {id: 'name', header: "name", width: 200, sortable: true, dataIndex: 'name'},
+                {id: 'testNameSpacema__Student_Name__c', header: "Full Name", width: 200, sortable: true, dataIndex: 'testNameSpacema__Student_Name__c'},
+                {id: 'testNameSpacema__Course_Name__c', header: "Course Name", width: 150, sortable: true, dataIndex: 'testNameSpacema__Course_Name__c'},
+                {id: 'testNameSpacema__marks__c', header: "Marks", width: 100, sortable: true, dataIndex: 'testNameSpacema__marks__c'},
+                {id: 'testNameSpacema__Grade__c', header: "Grade", width: 100, sortable: true, dataIndex: 'testNameSpacema__Grade__c'}
+            ]
+        }),
+        viewConfig: {
+            forceFit:true
+        },        
+        width: 600,
+        height: 300,
+        plugins: expander,
+        collapsible: true,
+        animCollapse: false,
+        title: 'Expander Rows, Collapse and Force Fit',
+        iconCls: 'icon-grid',
+        renderTo: 'myStudentList-grid'
+
+
+});
+//grid.render('myStudentList-grid');
+//grid.getSelectionModel().selectFirstRow();
+});
+</script> 
+
+<div id="myStudentList-grid"></div>
+ 
+ </apex:page>

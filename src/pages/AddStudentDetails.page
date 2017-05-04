@@ -1,0 +1,17 @@
+<apex:page >
+ <b><u>Hello World</u></b>
+ <br> </br><br></br>
+ Hello {!$User.FirstName}&nbsp;&nbsp;{!$User.LastName}
+ <br> </br>
+  <apex:outputLink value="{!URLFOR($Action.Account.New)}">Create New Account</apex:outputLink>
+   <br> </br>
+   <apex:outputLink value="{!$Page.TestOtherPage}">This is a link to another page</apex:outputLink>
+   <br></br>
+   Profile Id :{!$Profile.Id}
+    <br></br>
+    Profile Name :{!$Profile.Name}
+    <br></br>
+    <apex:image url="{!$Resource.TestImage}" width="50" height="50" />
+    <br></br>
+   Today date :{!NOW()}
+</apex:page>

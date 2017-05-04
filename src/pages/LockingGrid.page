@@ -1,0 +1,111 @@
+<apex:page controller="StudentDetailsController" showHeader="false" sidebar="false" >
+ <link rel="Stylesheet" type="text/css" href="{!$Resource.extjs}/ext-3.1.1/resources/css/ext-all.css" />
+ <link rel="Stylesheet" type="text/css" href="{!$Resource.lockingcss}" />
+
+ 
+ <script type="text/javascript" src="{!$Resource.extjs}/ext-3.1.1/adapter/ext/ext-base.js"></script>
+ <script type="text/javascript" src="{!$Resource.extjs}/ext-3.1.1/ext-all.js"></script>
+ <script type="text/javascript" src="{!$Resource.extjs}/ext-3.1.1/ext-all-debug.js"></script>
+ <script type="text/javascript" src="{!$Resource.locking}"></script>
+
+ 
+  
+<script type="text/javascript">
+Ext.onReady(function(){
+
+
+var editWindow=new Ext.Window({
+    title: 'Edit Row',
+    width: 500,
+    height: 400,
+    items : new Ext.FormPanel({
+        labelWidth: 75, // label settings here cascade unless overridden
+        frame:true,
+        title: 'Edit Form',
+        bodyStyle:'padding:5px 5px 0',
+        width: 500,
+        defaultType: 'textfield',
+
+        items: [{
+                fieldLabel: 'Name',
+                name: 'name',
+                value:'test',
+                allowBlank:false
+            },{
+                fieldLabel: 'Full Name',
+                name: 'Student_Name__c'
+            },{
+                fieldLabel: 'Course name',
+                name: 'Course_Name__c'
+            }, {
+                fieldLabel: 'Marks',
+                name: 'marks__c',
+               // vtype:'email'
+            }, 
+            {
+                fieldLabel: 'Grade',
+                name: 'Grade__c',
+                //vtype:'email'
+            }
+             ],
+
+        buttons: [{
+            text: 'Save',
+            listeners: {
+            click : function(){
+            alert('-----');
+            }
+            }
+            
+        },{
+            text: 'Cancel',
+            listeners: {
+            click : function(){
+            //alert('cancel -----');
+            editWindow.close();
+            }
+            }
+
+        }]
+    })
+  });
+
+
+
+
+ 
+//Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
+var myDataString = 'var myData = [ ';
+<apex:repeat value="{!studentDetails}" var="con" id="ContactRepeat">
+myDataString += "['{!con.name}','{!con.Student_Name__c}','{!con.Course_Name__c}','{!con.marks__c}','{!con.Grade__c}'],";
+</apex:repeat>
+myDataString += "['','','','',''] ];";
+eval(myDataString);
+var store = new Ext.data.SimpleStore({fields:[{name:'name'},{name:'testNameSpacema__Student_Name__c'},{name:'testNameSpacema__Course_Name__c'},{name:'testNameSpacema__marks__c'},{name:'testNameSpacema__Grade__c'}]});
+store.loadData(myData);
+// CREATE THE GRID
+var grid = new Ext.grid.GridPanel({store: store, colModel: new Ext.ux.grid.LockingColumnModel([
+{id: 'name', header: "name", width: 200, sortable: true, dataIndex: 'name', locked: true},
+{id: 'testNameSpacema__Student_Name__c', header: "Full Name", width: 200, sortable: true, dataIndex: 'testNameSpacema__Student_Name__c'},
+{id: 'testNameSpacema__Course_Name__c', header: "Course Name", width: 150, sortable: true, dataIndex: 'testNameSpacema__Course_Name__c'},
+{id: 'testNameSpacema__marks__c', header: "Marks", width: 100, sortable: true, dataIndex: 'testNameSpacema__marks__c'},
+{id: 'testNameSpacema__Grade__c', header: "Grade", width: 100, sortable: true, dataIndex: 'testNameSpacema__Grade__c'}
+]),
+
+stripeRows:true,  sm: new Ext.grid.RowSelectionModel({singleSelect: false}),viewConfig: {forceFit: true },columnLines: true,view: new Ext.ux.grid.LockingGridView(), height: 500, width: 750, title: 'MY EXT JS STUDENTS LIST'}); 
+
+grid.render('myStudentList-grid');
+grid.getSelectionModel().selectFirstRow();
+
+grid.on('rowdblclick', function(grid,rowIndex,e){
+
+alert('test'+e.data);
+editWindow.show();
+
+});
+});
+</script> 
+
+<div id="myStudentList-grid"></div>
+ 
+ </apex:page>

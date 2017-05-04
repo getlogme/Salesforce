@@ -1,0 +1,18 @@
+<apex:page controller="sampleCon">
+    <apex:form >
+        <apex:selectcheckboxes value="{!countries}" title="Choose a country">
+            <apex:selectOptions value="{!items}"/>
+        </apex:selectcheckboxes><br/>
+        <apex:commandButton value="Test" action="{!test}" rerender="out" status="status"/>
+    </apex:form>
+    <apex:outputPanel id="out">
+        <apex:actionstatus id="status" startText="testing...">
+            <apex:facet name="stop">
+                <apex:outputPanel style="border-color:red">
+                    <p>You have selected:</p>
+                    <apex:dataList value="{!countries}" var="c">a:{!c}</apex:dataList>
+                </apex:outputPanel>
+            </apex:facet>
+        </apex:actionstatus>
+    </apex:outputPanel>
+</apex:page>

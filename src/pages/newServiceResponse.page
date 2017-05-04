@@ -1,0 +1,29 @@
+<apex:page standardController="Service_Resp__c" extensions="SRControllerExt">
+<apex:form > 
+<apex:pageBlock >
+    <apex:pageBlockButtons >
+        <apex:commandButton value="Save" action="{!save}"/>
+        <apex:commandButton value="Cancel" action="{!cancel}"/>
+    </apex:pageBlockButtons>
+    <apex:pageBlockSection columns="2" >
+        <apex:outputPanel > 
+        <apex:pageBlockSectionItem >
+            <apex:outputLabel >Keywords :</apex:outputLabel>
+            <apex:inputText value="{!searchTxt}"/>
+        </apex:pageBlockSectionItem>
+        <br/>
+        <apex:commandButton value="Search" action="{!search}" reRender="docsTable"/>
+        
+    </apex:outputPanel>
+    <apex:outputPanel id="docsTable">
+       <apex:pageBlockTable value="{!docList}" var="d">
+           <apex:column >
+               <apex:inputCheckbox value="{!d.selected}"/>
+           </apex:column>
+           <apex:column headerValue="Title" value="{!d.title}"/>
+       </apex:pageBlockTable>
+    </apex:outputPanel>
+    </apex:pageBlockSection>
+</apex:pageBlock>
+</apex:form>
+</apex:page>

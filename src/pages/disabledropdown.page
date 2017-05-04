@@ -1,0 +1,24 @@
+<apex:page controller="dropdownDisable">
+<apex:form > 
+  <table>
+      <apex:repeat value="{!stdDetails}" var="dt">
+          <tr>
+              <td>
+                  <apex:inputCheckbox value="{!dt.id}" onclick="disable(this)" />
+              </td>
+              <td>
+                  <apex:inputField value="{!dt.Grade__c}"/>
+              </td>
+              <td>
+                  <apex:inputField value="{!dt.marks__c}"/>
+              </td>
+          </tr>
+      </apex:repeat>
+  </table>
+  </apex:form>
+  <script>
+  function disable(ch){
+   alert(ch.checked)
+  }
+  </script>
+</apex:page>

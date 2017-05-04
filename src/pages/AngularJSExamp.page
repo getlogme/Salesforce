@@ -1,0 +1,56 @@
+<apex:page controller="AngularJSExampController" >
+  <apex:includeScript value="//ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.11/angular.min.js"/>
+ 
+ <script>
+ var app = angular.module("ngApp", []); 
+ app.controller("ContactCtrl", ["$scope", function($scope) {
+   $scope.contacts = Visualforce.remoting.Manager.invokeAction(
+     '{!$RemoteAction.AngularJSExampController.myContacts}', 
+     function(result, event) {
+       $scope.contacts = result;
+       $scope.$apply();
+     }); 
+   $scope.headers = [
+  {
+    title: 'Id',
+    value: 'id'
+  },
+  {
+    title: 'Name',
+    value: 'name'
+  },
+  {
+    title: 'Email',
+    value: 'email'
+  }
+  ];
+   $scope.getContacts = function() {
+     Visualforce.remoting.Manager.invokeAction(
+     '{!$RemoteAction.AngularJSExampController.myContacts}', 
+     function(result, event) {
+       $scope.contacts = result;
+       $scope.$apply();
+     }); 
+     }
+   }]);
+ </script>
+ 
+ 
+ 
+ <div class="bootstrap" ng-app="ngApp" ng-controller="ContactCtrl" >
+ 
+ 
+ <table>
+     <tr>
+         <td>Name</td>
+         <td>Id</td>
+         <td>Email</td>
+     </tr>
+     <tr id="{{current.Id}}" ng-repeat="current in contacts" >
+         <td>{{current.Name}}</td>
+         <td>{{current.Id}}</td>
+         <td>{{current.email}}</td>
+     </tr>
+ </table>
+</div>
+</apex:page>

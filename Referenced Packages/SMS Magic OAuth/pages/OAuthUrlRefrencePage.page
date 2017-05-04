@@ -1,0 +1,17 @@
+<apex:page tabStyle="Oauth__tab">
+
+<apex:pageBlock title="Access to Screen- Magic (Production)">
+<apex:outputLabel value="Do you want to give access to Screen-Magic? Please Click On Approval Link" for="oauthUrl"/>
+&nbsp;&nbsp;&nbsp;<apex:outputLink id="oauthUrl" value="https://login.salesforce.com/services/oauth2/authorize?response_type=code&client_id=3MVG9Y6d_Btp4xp56b1GRiabMhMEiWWIagRnZeRVwTl4cGc7aZBZjEYlThLwZa2cP_DhL3mYLdpgU.TDEltR3&redirect_uri=https://sms-magic.in/customerportal/storeAuthCode/smagicoauth">
+Click Here
+</apex:outputLink>
+</apex:pageBlock>
+
+<apex:pageBlock title="Access to Screen- Magic (Sandbox)">
+<apex:outputLabel value="Do you want to give access to Screen-Magic? Please Click On Approval Link" for="oauthUrl"/>
+&nbsp;&nbsp;&nbsp;<apex:outputLink id="oauthUrl" value="https://test.salesforce.com/services/oauth2/authorize?response_type=code&client_id=3MVG9Y6d_Btp4xp56b1GRiabMhMEiWWIagRnZeRVwTl4cGc7aZBZjEYlThLwZa2cP_DhL3mYLdpgU.TDEltR3&redirect_uri=https://sms-magic.in/customerportal/storeAuthCode/smagicoauth">
+Click Here
+</apex:outputLink>
+</apex:pageBlock>
+<!-- End Default Content REMOVE THIS -->
+</apex:page>

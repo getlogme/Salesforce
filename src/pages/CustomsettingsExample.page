@@ -1,0 +1,19 @@
+<apex:page controller="DisplayCustomSettings">
+    <apex:pageBlock >
+        <apex:pageBlockTable value="{!lstFundingInfo}" var="obj">
+            <apex:column value="{!obj.name}"/>
+            <apex:column value="{!obj.Name__c}"/>
+            <apex:column value="{!obj.Stage_1_Notification_Date__c}"/>
+            <apex:column value="{!obj.Stage_1_Review_End_Date__c}"/>
+            <apex:column value="{!obj.Stage_1_Review_Start_Date__c}"/>
+            <apex:column value="{!obj.Stage_1_Submission_End_Date__c}"/>
+            <apex:column value="{!obj.Stage_1_Submission_Start_Date__c}"/>
+            <apex:column value="{!obj.Stage_2_Notification_Date__c}"/>
+            <apex:column value="{!obj.Stage_2_Review_End_Date__c}"/>
+            <apex:column value="{!obj.Stage_2_Review_Start_Date__c}"/>
+            <apex:column value="{!obj.Stage_2_Submission_End_Date__c}"/>
+            <apex:column value="{!obj.Stage_2_Submission_Start_Date__c}"/>
+        </apex:pageBlockTable>
+    </apex:pageBlock>
+
+</apex:page>

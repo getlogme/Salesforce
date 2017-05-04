@@ -1,0 +1,433 @@
+<apex:page standardStylesheets="false" showHeader="false" sidebar="false" renderAs="pdf" controller="PDF2" >
+  <html>
+    <head>  
+<style type="text/css">
+    
+    @page {
+                 
+                margin-left:45px;
+                margin-right:45px;
+                margin-top:130px;
+                margin-bottom:87px;
+                @top-center {                   
+                    content: element(header); 
+                    height:70px;
+                    vertical-align:top;               
+                      
+                }
+                                     
+               @bottom-right{
+                    content:"Page"  counter(page) "&nbsp; Of &nbsp;" counter(pages);
+                    font-family:Arial;
+                    font-size:12px;
+                    color:#999999;         
+                }
+               
+                       
+           }                       
+         
+            div.header {                                          
+                position: running(header); 
+                padding-top:35px;
+                padding-left:0px; 
+                padding-bottom:70px; 
+                
+                          
+             }
+             table.bodycontent{
+                 position:absolute;                                 
+                 left:0px;
+                 background-color:#FFFFFF;               
+                 width:725px;
+                 padding: 0px;
+                 margin: 0px;
+                 border-style: none;
+                 border-width: 0px;
+                 border-spacing: 0px;
+                 border-collapse: collapse;
+                 
+             } 
+             div.dtlcontent{
+                 position:relative;
+                 top:100px;
+                 left:0px;
+                 right:-5px;
+             } 
+             div.prdcontent{
+                 position:relative;
+                 top:100px;
+                 left:0px;
+                 right:-5px;
+             } 
+             div.tccontent{
+                 position:relative;
+                 top:440px;
+                 left:0px;
+                 right:-5px;
+             }
+             div.tccontentgp{
+                 position:relative;
+                 top:440px;
+                 left:0px;
+                 right:-5px;
+             }
+             table.custtable{
+                 padding:0px;
+                 background-color:#F3F3F3;
+                 margin: 0px;
+                 border-style: none;
+                 border-width: 0px;
+                 border-spacing: 0px;
+                 border-collapse: collapse;
+             } 
+             table.custtabletc{
+                 padding:0px;
+                 background-color:#F3F3F3;
+                 margin: 0px;
+                 border-style: none;
+                 border-width: 0px;
+                 border-spacing: 0px;
+                 border-collapse: collapse;
+             } 
+                         
+            
+            div.footer {
+                padding-top:50px;
+                padding-bottom:25px;
+                padding-left:-5px;
+                
+                position: running(footer);                                   
+            }
+                        .bodys{
+                            width:770px;
+                            height:980px;
+                            padding:0px;
+                            margin:0px;
+                        }
+                        .liccert{
+                            font-family:Arial;
+                            font-size:26pt;
+                            color: #118888;
+                            padding-left:10px
+                        }
+                        .custlbl{
+                        font-family:Arial;
+                        color:#000000;
+                        font-size:12pt;
+                        padding-left:10px;
+                        }
+                        .prdlbl{
+                        font-family:Arial;
+                        color:#000000;
+                        font-size:12pt;
+                        }
+                        .prdlbl13{
+                        font-family:Arial;
+                        color:#000000;
+                        font-size:12pt;
+                        width:130px;
+                        }
+                        .prdlb2{
+                        font-family:Arial;
+                        color:#000000;
+                        font-size:12pt;
+                        width:160px;
+                        }
+                        .prdlbl4{
+                        font-family:Arial;
+                        color:#000000;
+                        font-size:12pt;
+                        width:190px;
+                        }
+                        .prdlblgp13{
+                        width:15px;
+                        }
+                        .prdlblgp2{
+                        width:30px;
+                        }
+                        .prdlblgp4{
+                        width:10px;
+                        }
+                        .detaillbl{
+                        font-family:Arial;
+                        font-weight:bold;
+                        color:#000000;
+                        font-size:14pt;
+                        }
+                        .custrowspace{
+                        height:10px;
+                        }
+                        .custline{
+                        line-weight:1px;
+                        color:#D8D8D8;
+                        border-bottom: 0px #FFFFFF;
+                        }
+                        .accline{
+                        line-weight:1px;
+                        color:#118888;
+                        border-bottom: 0px;
+                        }
+                        .prdline1{
+                        line-weight:1px;
+                        color:#E4E4E4;
+                        border-bottom: 0px;
+                        }
+                        .custtext{
+                        font-family:Arial;
+                        font-size:12pt;
+                        line-height:1.5;
+                        color:#5F5F5F;
+                        
+                        }
+                        .prdtext{
+                        font-family:Arial;
+                        font-size:12pt;
+                        line-height:1.83;
+                        color:#5F5F5F;
+                        }
+                        .tctext{
+                        font-family:Arial;
+                        font-size:14pt;
+                        color:#000000;
+                        }
+                        .tcpara{
+                        font-family:Arial;
+                        font-size:12pt;
+                        line-height:1.5;
+                        color:#000000;
+                        }
+                        .tcparagp{
+                        height:30px;
+                        }
+                        
+                        
+
+                        </style>
+                        </head>
+                        <body class="bodys">
+                            <div class="header">   
+                                <img style="WIDTH:142px; HEIGHT: 25px" src='{!URLFOR($Resource.calcon)}' title="logo" /> <apex:outputLabel styleClass="liccert" >License Certificate</apex:outputLabel>
+                            </div>
+                            
+                            
+                            <table width="100%" height="100%" class="bodycontent" >
+                                <tr>
+                                    <td colspan="5">
+                                     <table width="100%" height="100%" class="custtable" >
+                                     
+                                    <tr>
+                                         <td class="prdlbl13">Test</td>
+                                          <td class="prdlblgp13"></td>
+                                          <td class="prdlb2">col2 </td>
+                                          <td class="prdlblgp2"></td>
+                                          <td class="prdlbl13">Test  </td>
+                                          <td class="prdlblgp13"></td>
+                                          <td class="prdlb4">col4 </td>
+                                          <td class="prdlbgp4"></td>
+                                          
+                                     </tr>
+                                     <tr>
+                                         <td class="prdlbl13">Test  </td>
+                                         <td class="prdlblgp13"></td>
+                                          <td class="prdlb2">col2 </td>
+                                          <td class="prdlbgp2"></td>
+                                          <td class="prdlbl13">Test </td>
+                                          <td class="prdlblgp13"></td>
+                                          <td class="prdlb4">col4 </td>
+                                          <td class="prdlbgp4"></td>
+                                          
+                                     </tr>
+                                     <tr>
+                                         <td class="cprdlbl13"></td>
+                                         <td class="prdlblgp13"></td>
+                                          <td class="prdlb2">col2 </td>
+                                          <td class="prdlbgp2"></td>
+                                          <td class="prdlbl13"></td>
+                                          <td class="prdlblgp13"></td>
+                                          <td class="prdlb4">col4 </td>
+                                          <td class="prdlbgp4"></td>
+                                          
+                                     </tr>
+                                     <tr>
+                                         <td class="prdlbl13"></td>
+                                         <td class="prdlblgp13"></td>
+                                          <td class="prdlb2">col2 </td>
+                                          <td class="prdlbgp2"></td>
+                                          <td class="prdlb13"></td>
+                                          <td class="prdlblgp13"></td>
+                                          <td class="prdlb4">col4 </td>
+                                          <td class="prdlbgp4"></td>
+                                          
+                                     </tr>
+                                     
+                                     <tr>
+                                         <td class="prdlbl13"></td>
+                                         <td class="prdlblgp13"></td>
+                                          <td class="prdlb2">col2 </td>
+                                          <td class="prdlbgp2"></td>
+                                          <td class="prdlbl13"></td>
+                                          <td class="prdlblgp13"></td>
+                                          <td class="prdlb4">col4 </td>
+                                          <td class="prdlbgp4"></td>
+                                          
+                                     </tr>
+                                                                        
+                                 </table>
+                                    
+                                    
+                                    
+                                    </td>
+                                    
+                                    
+                                </tr>
+                                <tr style="height:50px">
+                                    <td colspan="5"></td>                                                                        
+                                </tr>
+                                <tr>
+                                    <td colspan="5">Details</td>                                    
+                                </tr>
+                                <tr style="height:30px">
+                                    <td colspan="5"></td>                                                                        
+                                </tr>
+                                <tr style="background-color:#FFFFFF">
+                                    <td colspan="5" style="padding:0px;background-color:#FFFFFF">
+                                    <apex:repeat value="{!lstStr}" var="ac"> 
+                                  <table width="100%" height="100%" class="custtable" >
+                                     <tr>
+                                          <td colspan="8"><hr class="custline"></hr></td>
+                                     </tr>
+                                     <tr>
+                                         <td class="prdlbl">Test  </td>
+                                         <td></td>
+                                          <td colspan="6">col2 </td>                                  
+                                          
+                                     </tr>
+                                     <tr>
+                                          <td colspan="8"><hr class="prdline1"></hr></td>
+                                     </tr>
+                                    <tr>
+                                         <td class="prdlbl13">{!ac.name}</td>
+                                          <td class="prdlblgp13"></td>
+                                          <td class="prdlb2">col2 </td>
+                                          <td class="prdlblgp2"></td>
+                                          <td class="prdlbl13">Test  </td>
+                                          <td class="prdlblgp13"></td>
+                                          <td class="prdlb4">col4 </td>
+                                          <td class="prdlbgp4"></td>
+                                          
+                                     </tr>
+                                     <tr>
+                                         <td class="prdlbl13">Test  </td>
+                                         <td class="prdlblgp13"></td>
+                                          <td class="prdlb2">col2 </td>
+                                          <td class="prdlbgp2"></td>
+                                          <td class="prdlbl13">Test </td>
+                                          <td class="prdlblgp13"></td>
+                                          <td class="prdlb4">col4 </td>
+                                          <td class="prdlbgp4"></td>
+                                          
+                                     </tr>
+                                     <tr>
+                                         <td class="cprdlbl13">Test  </td>
+                                         <td class="prdlblgp13"></td>
+                                          <td class="prdlb2">col2 </td>
+                                          <td class="prdlbgp2"></td>
+                                          <td class="prdlbl13">Test </td>
+                                          <td class="prdlblgp13"></td>
+                                          <td class="prdlb4">col4 </td>
+                                          <td class="prdlbgp4"></td>
+                                          
+                                     </tr>
+                                     <tr>
+                                         <td class="prdlbl13">Test  </td>
+                                         <td class="prdlblgp13"></td>
+                                          <td class="prdlb2">col2 </td>
+                                          <td class="prdlbgp2"></td>
+                                          <td class="prdlb13">Test  </td>
+                                          <td class="prdlblgp13"></td>
+                                          <td class="prdlb4">col4 </td>
+                                          <td class="prdlbgp4"></td>
+                                          
+                                     </tr>
+                                     <tr>
+                                         <td class="prdlbl13">Test  </td>
+                                         <td class="prdlblgp13"></td>
+                                          <td class="prdlb2">col2 </td>
+                                          <td class="prdlbgp2"></td>
+                                          <td class="prdlb13"></td>
+                                          <td class="prdlblgp13"></td>
+                                          <td class="prdlb4">col4 </td>
+                                          <td class="prdlbgp4"></td>
+                                          
+                                     </tr>
+                                     <tr>
+                                         <td class="prdlbl13">Test  </td>
+                                         <td class="prdlblgp13"></td>
+                                          <td class="prdlb2">col2 </td>
+                                          <td class="prdlbgp2"></td>
+                                          <td class="prdlbl13">Test </td>
+                                          <td class="prdlblgp13"></td>
+                                          <td class="prdlb4">col4 </td>
+                                          <td class="prdlbgp4"></td>
+                                          
+                                     </tr>
+                                     <tr>
+                                          <td colspan="8"><hr class="prdline1"></hr></td>
+                                     </tr>
+                                     <tr>
+                                         <td class="prdlbl">Test  </td>
+                                          <td> </td>   
+                                          <td>col2 </td>
+                                          <td> </td>
+                                          <td> </td>
+                                          <td> </td>
+                                          <td> </td>
+                                          <td>col4 </td>
+                                          
+                                     </tr>
+                                     <tr>
+                                         <td class="prdlbl">Test </td>
+                                          <td> </td>   
+                                          <td>col2 </td>
+                                          <td> </td>
+                                          <td> </td>
+                                          <td> </td>
+                                          <td> </td>
+                                          <td>col4 </td>
+                                          
+                                     </tr>
+                                      <tr>
+                                          <td colspan="8"><hr class="accline"></hr></td>
+                                     </tr>
+                                     <tr style="height:70px;background-color:#FFFFFF">
+                                        <td colspan="8"></td>                                                                        
+                                    </tr>
+                                 </table>
+                                  </apex:repeat>  
+                               </td>
+                                                                    
+                                </tr>
+                                <tr style="page-break-before:always">
+                                    <td colspan="5">                                    
+                                    <table width="100%" height="100%" class="custtabletc">
+                                       <tr><td>test</td></tr>
+                                       <tr class="tcparagp"><td></td></tr>
+                                       <tr><td>tet</td></tr>
+                                       <tr class="tcparagp"><td></td></tr>
+                                       <tr><td>test</td></tr>
+                                       <tr class="tcparagp"><td></td></tr>
+                                       <tr><td>test</td></tr>
+                                   
+                                        </table> 
+                                    </td>                                                                        
+                                </tr>
+                                  
+                            </table>                              
+                            
+                            
+                           
+                              
+                        </body>
+            </html>
+           
+</apex:page>

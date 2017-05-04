@@ -1,0 +1,9 @@
+<apex:page standardController="Account_Plan__c" extensions="UtilsDeeperClone">
+    <apex:form > 
+    <apex:pageBlock >
+        <apex:pageBlockButtons >
+            <apex:commandButton value="Save" action="{!save}"/>
+        </apex:pageBlockButtons>
+    </apex:pageBlock> 
+    </apex:form> 
+</apex:page>

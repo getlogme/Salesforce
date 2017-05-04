@@ -1,0 +1,81 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" cache="false" >
+<html> 
+    <head> 
+        <title>Page Title</title> 
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0.1/jquery.mobile-1.0.1.min.css" />
+        <style>
+            .iwContainer {
+                width: 130px; 
+                height: 50px;
+                font-family: Arial, Helvetica, sans-serif;
+                font-size: 9px;
+            } 
+        </style>
+       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0; user-scalable=no" />
+            <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+            <!-- include jquery mobile -->
+            <apex:stylesheet value="{!URLFOR($Resource.jQueryMobile101, 'jquery.mobile-1.0.1/jquery.mobile-1.0.1.min.css')}" />
+            <apex:includeScript value="{!URLFOR($Resource.jQueryMobile101, 'jquery.mobile-1.0.1/demos/jquery.js')}"/>
+            <apex:includeScript value="{!URLFOR($Resource.jQueryMobile101, 'jquery.mobile-1.0.1/jquery.mobile-1.0.1.min.js')}"/>
+            <apex:includeScript value="{!URLFOR($Resource.Cordova, 'Cordova/cordova-1.8.1.js')}"/>
+            <apex:includeScript value="{!URLFOR($Resource.Cordova, 'Cordova/SalesforceOAuthPlugin.js')}"/>
+          
+            <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
+        <script type="text/javascript">
+            function initialize() 
+            {
+                var locations = [
+                    ['Athens Test point 1', 37.9586674,23.7195099, 1],
+                    ['Athens Test Point 2', 38.0457918, 23.7676337, 2]
+                ];
+
+                 var map = new google.maps.Map(document.getElementById('map_canvas'), {
+                   zoom: 12,
+                   center: new google.maps.LatLng(37.9586674, 23.7195099),
+                   mapTypeId: google.maps.MapTypeId.ROADMAP
+                 });
+
+                var infowindow = new google.maps.InfoWindow();
+
+                var marker, i;
+
+                for (i = 0; i < locations.length; i++) 
+                {  
+                   marker = new google.maps.Marker({
+                     position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                     map: map
+                   });
+
+                    google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                        return function() {
+                            infowindow.setContent('<div class="iwContainer">' + locations[i][0] + '</div>');
+                            infowindow.open(map, marker);
+                        }
+                    })(marker, i));
+                }
+            }
+
+            $(function() { 
+                $('.page-map').live("pagecreate", function() {
+                    initialize();
+                });
+            });
+        </script>
+    </head> 
+
+    <body>
+        <!-- /page -->
+        <div data-role="page">
+            <!-- /header -->
+            <div data-role="header" data-theme="b">
+                <h1>Maps</h1>
+            </div>
+            <!-- /content -->
+            <div data-role="content">
+                <a href="/apex/testMap2" data-role="button" data-transition="fade">Click to see the Map</a>
+            </div>
+        </div>
+    </body>
+</html>
+</apex:page>

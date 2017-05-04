@@ -1,0 +1,9 @@
+<apex:page controller="TimeSheetContNew">
+  <apex:form > 
+ <apex:selectList size="1" value="{!listId}" id="listId">
+     <apex:selectOptions value="{!PickInfo}"></apex:selectOptions>
+ </apex:selectList>
+  <apex:commandButton action="{!conti}" value="Continue"/>
+   <apex:commandButton action="{!cancel}" value="Cancel"/>
+  </apex:form>
+</apex:page>

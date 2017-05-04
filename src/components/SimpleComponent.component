@@ -1,0 +1,8 @@
+<apex:component controller="SimpleCompController">
+<apex:componentBody >
+    <apex:form > 
+    <apex:actionFunction name="doUnlink" action="{!addOpt}" /> 
+    <input type="button" value="Yes, this is the wrong contact" onclick="doUnlink();" />
+    </apex:form>
+</apex:componentBody>
+</apex:component>

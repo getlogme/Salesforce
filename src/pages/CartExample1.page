@@ -1,0 +1,984 @@
+<apex:page >
+<apex:includeScript value="{!URLFOR($Resource.jquerylatest, 'js/jquery-1.5.1.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.jquerylatest, 'js/jquery-ui-1.8.12.custom.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.cart1, 'jquery.livequery.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.cart1, 'jquery-1.3.2.js')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.jquerylatest, 'css/ui-lightness/jquery-ui-1.8.12.custom.css')}"/>
+ <head>
+ <style>
+     html, body{
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+}
+
+#wrap{ width:100%; min-height:900px; top:0px; position:relative; bottom:0px; }
+#wrap ul{ margin:0px; padding:0px; width: 700px;text-align:center;  }
+
+#wrap .detail-view {
+   /* background: none repeat scroll 0 0 #F3F4EE;*/
+    border: 1px solid #E2E2E2;
+    border-top: 1px solid #E2E2E2;
+    left: 0;
+    height:380px;
+    overflow: hidden;
+    clear:both;
+    display:none;
+    margin-left:13px;
+    margin-bottom:15px;
+    width: 96%;
+}
+
+#wrap .detail-view .close{ text-align:right; width:98%; margin:5px; }
+#wrap .close a{ padding:6px; height:10px; width:20px; color:#525049; }
+#wrap .detail-view .detail_images{ float:left}
+
+#wrap .detail-view .detail_info{ 
+    float:right;
+    font-family: "Helvetica Neue",Helvetica,"Nimbus Sans L",Arial,sans-serif; 
+    color:#525049;
+    margin-right:20px;
+    margin-top:30px;
+    text-align:justify;
+    width:250px;
+    font-size:12px;
+}
+
+#wrap .detail-view .detail_info label{ font-size:12px;text-transform:uppercase; letter-spacing:1px; line-height:60px;} 
+
+#wrap .detail-view .detail_info p{ height:110px;}
+
+a#show_cart{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #E8E7DC;
+    cursor: pointer;
+    display:block;
+    display: inline-block;
+    font: 9px/21px "Helvetica Neue",Helvetica,"Nimbus Sans L",Arial,sans-serif;
+    letter-spacing: 2px;
+    color:#525049;
+    padding:8px;
+    text-decoration:none;
+    
+    text-transform: uppercase;
+}
+.add-to-cart-button{
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #E8E7DC;
+    cursor: pointer;
+    display: inline-block;
+    font: 9px/21px "Helvetica Neue",Helvetica,"Nimbus Sans L",Arial,sans-serif;
+    letter-spacing: 2px;
+    padding-top: 10px;color:#525049;
+    margin-top:15px;
+    text-transform: uppercase;
+}
+
+.add-to-cart-button:hover {
+    background: none repeat scroll 0 0 #F8F8F3;
+}
+
+.shopp{background: none repeat scroll 0 0 #F8F8F3;}
+
+#wrap ul li{
+ 
+    list-style-type:none; 
+    height:146px; 
+    width:160px; 
+    margin-left:10px; 
+    margin-bottom:15px; 
+    float:left;
+    padding:15px 0px 0px 0px;
+    font-family:"LubalGraphBdBTBold",Tahoma;
+    font-size:2em;
+    border:solid #fff 1px; 
+    overflow:hidden;
+}
+
+.footer{ height:400px; background:#E2E2E2} 
+
+#wrap ul li:hover{ border:solid #f3f4ee 1px; }
+
+#wrap ul li div{ 
+
+    height:31px;
+    text-align:center;
+    width:160px;
+    margin-top:10px;
+    position:relative;
+    bottom:0px;
+    padding-top:6px;
+    padding-bottom:4px;
+    background:#f3f4ee ;
+    font: 12px/21px "Helvetica Neue",Helvetica,"Nimbus Sans L",Arial,sans-serif;
+    opacity:0.8;
+    color: #525049 ;
+    text-shadow: 0px 2px 3px #555;
+}
+
+img#cart{bottom:0px;position:fixed; margin-left:30px; /* keep the bar on top  */}
+
+#wrap ul li { cursor:pointer;}
+
+#cart_wrapper { 
+    border:solid #E8E7DC 1px; 
+    min-height:120px;
+    width:100%;
+    padding-top:15px;
+    display:none;
+    background:#E2E2E2;
+    font: 12px/21px "Helvetica Neue",Helvetica,"Nimbus Sans L",Arial,sans-serif;
+    
+    position:relative
+}
+
+#Submit {
+  height: 78px;
+  float:left;
+}
+
+.closeCart{ cursor:pointer;}
+
+button {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border: 1px solid #E8E7DC;
+    width:140px;
+    cursor: pointer;
+    display: inline-block;
+    font: 9px/21px "Helvetica Neue",Helvetica,"Nimbus Sans L",Arial,sans-serif;
+    letter-spacing: 2px;
+    padding-top: 12px;color:#525049;
+    margin-top:1px;
+    border:solid #ccc 1px; padding:8px; 
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    margin-left:20px;
+    text-transform: uppercase;
+}
+
+button:hover {
+    background: none repeat scroll 0 0 #F8F8F3;
+}
+
+.cart-total{background: none repeat scroll 0 0 #F8F8F3;}
+
+.shopp,.cart-total{ 
+    border:solid #E8E7DC 1px; padding:8px; 
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px; font-size:12px;
+    background:url(remove.png) center right no-repeat 5px;
+    border-radius: 8px; 
+    font-family:"LubalGraphBdBTBold",Tahoma; 
+    margin-top:3px;
+    width:320px;
+    float:left;
+    }
+
+#cart_form{ width:570px; padding-left:15px;}
+
+div.shopp span{ float:left;}    
+div.shopp div.label{ width:130px; float:left; }     
+div.shopp div.shopp-price{ width:70px; float:left;}
+.quantity{ float:left; margin-top:-3px; width:20px;}
+
+img.remove{float:right;cursor:pointer;}
+.cart-total b{width:130px;}
+ </style>
+     <script type="text/javascript">
+         var j$ = jQuery.noConflict();
+ 
+ $(document).ready(function() {
+    
+    var Arrays=new Array();
+    
+    $('.add-to-cart-button').click(function(){
+        
+        var thisID    = $(this).parent().parent().attr('id').replace('detail-','');
+        
+        var itemname  = $(this).parent().find('.item_name').html();
+        var itemprice = $(this).parent().find('.price').html();
+        
+        if(include(Arrays,thisID))
+        {
+            var price    = $('#each-'+thisID).children(".shopp-price").find('em').html();
+            var quantity = $('#each-'+thisID).children(".shopp-quantity").html();
+            quantity = parseInt(quantity)+parseInt(1);
+            
+            var total = parseInt(itemprice)*parseInt(quantity);
+            
+            $('#each-'+thisID).children(".shopp-price").find('em').html(total);
+            $('#each-'+thisID).children(".shopp-quantity").html(quantity);
+            
+            var prev_charges = $('.cart-total span').html();
+            prev_charges = parseInt(prev_charges)-parseInt(price);
+            
+            prev_charges = parseInt(prev_charges)+parseInt(total);
+            $('.cart-total span').html(prev_charges);
+            
+            $('#total-hidden-charges').val(prev_charges);
+        }
+        else
+        {
+            Arrays.push(thisID);
+            
+            var prev_charges = $('.cart-total span').html();
+            prev_charges = parseInt(prev_charges)+parseInt(itemprice);
+            
+            $('.cart-total span').html(prev_charges);
+            $('#total-hidden-charges').val(prev_charges);
+            
+            var Height = $('#cart_wrapper').height();
+            $('#cart_wrapper').css({height:Height+parseInt(45)});
+            
+            $('#cart_wrapper .cart-info').append('<div class="shopp" id="each-'+thisID+'"><div class="label">'+itemname+'</div><div class="shopp-price"> $<em>'+itemprice+'</em></div><span class="shopp-quantity">1</span><img src="remove.png" class="remove" /><br class="all" /></div>');
+            
+        }
+        
+    }); 
+    
+    $('.remove').livequery('click', function() {
+        
+        var deduct = $(this).parent().children(".shopp-price").find('em').html();
+        var prev_charges = $('.cart-total span').html();
+        
+        var thisID = $(this).parent().attr('id').replace('each-','');
+        
+        var pos = getpos(Arrays,thisID);
+        Arrays.splice(pos,1,"0")
+        
+        prev_charges = parseInt(prev_charges)-parseInt(deduct);
+        $('.cart-total span').html(prev_charges);
+        $('#total-hidden-charges').val(prev_charges);
+        $(this).parent().remove();
+        
+    }); 
+    
+    $('#Submit').livequery('click', function() {
+        
+        var totalCharge = $('#total-hidden-charges').val();
+        
+        $('#cart_wrapper').html('Total Charges: $'+totalCharge);
+        
+        return false;
+        
+    }); 
+    
+    // this is for 2nd rows li offset from top. It means how much offset you want to give them with animation
+    var single_li_offset    = 200;
+    var current_opened_box  = -1;
+    
+    $('#wrap li').click(function() {
+    
+        var thisID = $(this).attr('id');
+        var $this  = $(this);
+        
+        var id = $('#wrap li').index($this);
+        
+        if(current_opened_box == id) // if user click a opened box li again you close the box and return back
+        {
+            $('#wrap .detail-view').slideUp('slow');
+            return false;
+        }
+        $('#cart_wrapper').slideUp('slow');
+        $('#wrap .detail-view').slideUp('slow');
+        
+        // save this id. so if user click a opened box li again you close the box.
+        current_opened_box = id;
+        
+        var targetOffset = 0;
+        
+        // below conditions assumes that there are four li in one row and total rows are 4. How ever if you want to increase the rows you have to increase else-if conditions and if you want to increase li in one row, then you have to increment all value below. (if(id<=3)), if(id<=7) etc
+        
+        if(id<=3)
+            targetOffset = 0;
+        else if(id<=7)
+            targetOffset = single_li_offset;
+        else if(id<=11)
+            targetOffset = single_li_offset*2;
+        else if(id<=15)
+            targetOffset = single_li_offset*3;
+        
+        $("html:not(:animated),body:not(:animated)").animate({scrollTop: targetOffset}, 800,function(){
+            
+            $('#wrap #detail-'+thisID).slideDown(500);
+            return false;
+        });
+        
+    });
+    
+    $('.close a').click(function() {
+        
+        $('#wrap .detail-view').slideUp('slow');
+        
+    });
+    
+    $('.closeCart').click(function() {
+        
+        $('#cart_wrapper').slideUp();
+        
+    });
+    
+    $('#show_cart').click(function() {
+        
+        $('#cart_wrapper').slideToggle('slow');
+        
+    });
+    
+});
+
+function include(arr, obj) {
+  for(var i=0; i<arr.length; i++) {
+    if (arr[i] == obj) return true;
+  }
+}
+
+function getpos(arr, obj) {
+  for(var i=0; i<arr.length; i++) {
+    if (arr[i] == obj) return i;
+  }
+}
+
+</script>
+</head>
+<body>
+
+
+
+<div align="left" style="min-height:800px;">
+    
+    <div id="cart_wrapper" align="center">
+    
+        <form action="#" id="cart_form" name="cart_form">
+        
+            <div class="cart-info"></div>
+            
+            <div class="cart-total">
+            
+                <b>Total Charges:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b> $<span>0</span>
+                
+                <input type="hidden" name="total-hidden-charges" id="total-hidden-charges" value="0" />
+            </div>
+            
+            <button type="submit" id="Submit">CheckOut</button>
+        
+        </form>
+    </div>
+    
+    <div id="wrap" align="center">
+        
+        <a id="show_cart" href="javascript:void(0)">View Cart</a>
+        
+        <ul>
+            <li id="1">
+                <img src="product_img/1.jpg" class="items" height="100" alt="" />
+                
+                <br clear="all" />
+                <div>Red Grocery Bag</div>
+            </li>
+            
+            <li id="2">
+                <img src="product_img/2.jpg" class="items" height="100" alt="" />
+                
+                <br clear="all" />
+                <div>Reusable Grocery Bag</div>
+            </li>
+            
+            <li id="3">
+                <img src="product_img/3.jpg" class="items" height="100" alt="" />
+                
+                <br clear="all" />
+                <div>White Grocery Bag</div>
+            </li>
+            <li id="4">
+                <img src="product_img/4.jpg" class="items" height="100" alt="" />
+                
+                <br clear="all" />
+                <div>Yellow Grocery Bag</div>
+            </li>
+            
+            <!-- Detail Boxes for above four li -->
+            
+            <div class="detail-view" id="detail-1">
+            
+                <div class="close" align="right">
+                    <a href="javascript:void(0)">x</a>
+                    
+                </div>
+                
+                <img src="product_img/1.jpg" class="detail_images" width="340" height="310" alt="" />
+                
+                <div class="detail_info">
+                    
+                    <label class='item_name'>Red Grocery Bag</label>
+                    <br clear="all" />
+                    
+                    <p>
+                        shopping bag, shopping, bag, merchandise, consumerism, gift:
+                    
+                        <br clear="all" /><br clear="all" />
+                        $<span class="price">80.00</span>
+                        
+                    </p>
+                    
+                    <br clear="all" />
+                    
+                    <button  class="add-to-cart-button">Add to Cart</button>
+                    
+                </div>
+                
+                
+            </div>
+            <div class="detail-view" id="detail-2">
+                
+                <div class="close" align="right">
+                    <a href="javascript:void(0)">x</a>
+                    
+                </div>
+                
+                <img src="product_img/2.jpg" class="detail_images" width="340" height="310" alt="" />
+                
+                <div class="detail_info">
+                    
+                    <label class='item_name'>Reusable Grocery Bag</label>
+                    <br clear="all" />
+                    
+                    <p>
+                        shopping bag, shopping, bag, merchandise, consumerism, gift:
+                    
+                        <br clear="all" /><br clear="all" />
+                        $<span class="price">70.00</span>
+                        
+                    </p>
+                    
+                    <br clear="all" />
+                    
+                    <button  class="add-to-cart-button">Add to Cart</button>
+                    
+                </div>
+                
+            </div>
+            <div class="detail-view" id="detail-3">
+                
+                <div class="close" align="right">
+                    <a href="javascript:void(0)">x</a>
+                    
+                </div>
+                
+                <img src="product_img/3.jpg" class="detail_images" width="340" height="310" alt="" />
+                
+                <div class="detail_info">
+                    
+                    <label class='item_name'>White Grocery Bag</label>
+                    <br clear="all" />
+                    
+
+                    <p>
+                        shopping bag, shopping, bag, merchandise, consumerism, gift:
+                    
+                        <br clear="all" /><br clear="all" />
+                        $<span class="price">50.00</span>
+                        
+                    </p>
+                    
+                    <br clear="all" />
+                    
+                    <button  class="add-to-cart-button">Add to Cart</button>
+                    
+                </div>
+                
+            </div>
+            <div class="detail-view" id="detail-4">
+                
+                <div class="close" align="right">
+                    <a href="javascript:void(0)">x</a>
+                    
+                </div>
+                
+                <img src="product_img/4.jpg" class="detail_images" width="340" height="310" alt="" />
+                
+                <div class="detail_info">
+                    
+                    <label class='item_name'>Yellow Grocery Bag</label>
+                    <br clear="all" />
+                    
+                    <p>
+                        shopping bag, shopping, bag, merchandise, consumerism, gift:
+                    
+                        <br clear="all" /><br clear="all" />
+                        $<span class="price">90.00</span>
+                        
+                    </p>
+                    
+                    <br clear="all" />
+                    
+                    <button  class="add-to-cart-button">Add to Cart</button>
+                    
+                </div>
+                
+            </div>
+            
+            <!---->
+            
+            <li id="5">
+                <img src="product_img/5.jpg" class="items" height="100" alt="" />
+                
+                <br clear="all" />
+                <div>Reusable Green Bag</div>
+            </li>
+            
+            <li id="6">
+                <img src="product_img/6.jpg" class="items" height="100" alt="" />
+                
+                <br clear="all" />
+                <div>Simple  Bag</div>
+            </li>
+            
+            <li id="7">
+                <img src="product_img/7.jpg" class="items" height="100" alt="" />
+                
+                <br clear="all" />
+                <div>WhiteGrocery Bag</div>
+            </li>
+            <li id="8">
+                <img src="product_img/8.jpg" class="items" height="100" alt="" />
+                
+                <br clear="all" />
+                <div>Reusable Grocery Bag</div>
+            </li>
+            
+            <!-- Detail Boxes for above four li -->
+            
+            <div class="detail-view" id="detail-5">
+                
+                <div class="close" align="right">
+                    <a href="javascript:void(0)">x</a>
+                    
+                </div>
+                
+                <img src="product_img/5.jpg" class="detail_images" width="340" height="310" alt="" />
+                
+                <div class="detail_info">
+                    
+                    <label class='item_name'>Reusable Grocery Bag</label>
+                    <br clear="all" />
+                    
+                    <p>
+                        shopping bag, shopping, bag, merchandise, consumerism, gift:
+                    
+                        <br clear="all" /><br clear="all" />
+                        $<span class="price">80.00</span>
+                        
+                    </p>
+                    
+                    <br clear="all" />
+                    
+                    <button  class="add-to-cart-button">Add to Cart</button>
+                    
+                </div>
+                
+            </div>
+            <div class="detail-view" id="detail-6">
+                
+                <div class="close" align="right">
+                    <a href="javascript:void(0)">x</a>
+                    
+                </div>
+                
+                <img src="product_img/6.jpg" class="detail_images" width="340" height="310" alt="" />
+                
+                <div class="detail_info">
+                    
+                    <label class='item_name'>Reusable Grocery Bag</label>
+                    <br clear="all" />
+                    
+                    <p>
+                        shopping bag, shopping, bag, merchandise, consumerism, gift:
+                    
+                        <br clear="all" /><br clear="all" />
+                        $<span class="price">80.00</span>
+                        
+                    </p>
+                    
+                    <br clear="all" />
+                    
+                    <button  class="add-to-cart-button">Add to Cart</button>
+                    
+                </div>
+                
+            </div>
+            <div class="detail-view" id="detail-7">
+                
+                <div class="close" align="right">
+                    <a href="javascript:void(0)">x</a>
+                    
+                </div>
+                
+                <img src="product_img/7.jpg" class="detail_images" width="340" height="310" alt="" />
+                
+                <div class="detail_info">
+                    
+                    <label class='item_name'>WhiteGrocery Bag</label>
+                    <br clear="all" />
+                    
+                    <p>
+                        shopping bag, shopping, bag, merchandise, consumerism, gift:
+                    
+                        <br clear="all" /><br clear="all" />
+                        $<span class="price">80.00</span>
+                        
+                    </p>
+                    
+                    <br clear="all" />
+                    
+                    <button  class="add-to-cart-button">Add to Cart</button>
+                    
+                </div>
+                
+            </div>
+            <div class="detail-view" id="detail-8">
+                
+                <div class="close" align="right">
+                    <a href="javascript:void(0)">x</a>
+                    
+                </div>
+                
+                <img src="product_img/8.jpg" class="detail_images" width="340" height="310" alt="" />
+                
+                <div class="detail_info">
+                    
+                    <label class='item_name'>Reusable Grocery Bag</label>
+                    <br clear="all" />
+                    
+                    <p>
+                        shopping bag, shopping, bag, merchandise, consumerism, gift:
+                    
+                        <br clear="all" /><br clear="all" />
+                        $<span class="price">80.00</span>
+                        
+                    </p>
+                    
+                    <br clear="all" />
+                    
+                    <button  class="add-to-cart-button">Add to Cart</button>
+                    
+                </div>
+                
+            </div>
+            
+            <!---->
+            
+            <li id="9">
+                <img src="product_img/9.jpg" class="items" height="100" alt="" />
+                
+                <br clear="all" />
+                <div><span class="name">B</span><span class="price"></span>lue Shirt </div>
+            </li>
+            
+            <li id="10">
+                <img src="product_img/10.jpg" class="items" height="100" alt="" />
+                
+                <br clear="all" />
+                <div><span class="name">Green Large </span> Shirt </div>
+            </li>
+            
+            <li id="11">
+                <img src="product_img/11.jpg" class="items" height="100" alt="" />
+                
+                <br clear="all" />
+                <div>WhiteGrocery Bag</div>
+            </li>
+            
+            <li id="12">
+                <img src="product_img/12.jpg" class="items" height="100" alt="" />
+                
+                <br clear="all" />
+                <div><span class="name">Black Large </span> Shirt </div>
+            </li>
+            
+            <!-- Detail Boxes for above four li -->
+            
+            <div class="detail-view" id="detail-9">
+                
+                <div class="close" align="right">
+                    <a href="javascript:void(0)">x</a>
+                    
+                </div>
+                
+                <img src="product_img/9.jpg" class="detail_images" width="340" height="310" alt="" />
+                
+                <div class="detail_info">
+                    
+                    <label class='item_name'>Blue Shirt </label>
+                    <br clear="all" />
+                    
+                    <p>
+                        shopping shirts, shopping, shirts, merchandise, consumerism, gift:
+                    
+                        <br clear="all" /><br clear="all" />
+                        $<span class="price">80.00</span>
+                        
+                    </p>
+                    
+                    <br clear="all" />
+                    
+                    <button  class="add-to-cart-button">Add to Cart</button>
+                    
+                </div>
+                
+            </div>
+            <div class="detail-view" id="detail-10">
+                
+                <div class="close" align="right">
+                    <a href="javascript:void(0)">x</a>
+                    
+                </div>
+                
+                <img src="product_img/10.jpg" class="detail_images" width="340" height="310" alt="" />
+                
+                <div class="detail_info">
+                    
+                    <label class='item_name'>Green Large Shirt </label>
+                    <br clear="all" />
+                    
+                    <p>
+                        shopping shirts, shopping, shirts, merchandise, consumerism, gift:
+                    
+                        <br clear="all" /><br clear="all" />
+                        $<span class="price">80.00</span>
+                        
+                    </p>
+                    
+                    <br clear="all" />
+                    
+                    <button  class="add-to-cart-button">Add to Cart</button>
+                    
+                </div>
+                
+            </div>
+            <div class="detail-view" id="detail-11">
+                
+                <div class="close" align="right">
+                    <a href="javascript:void(0)">x</a>
+                    
+                </div>
+                
+                <img src="product_img/11.jpg" class="detail_images" width="340" height="310" alt="" />
+                
+                <div class="detail_info">
+                    
+                    <label class='item_name'>WhiteGrocery Bag</label>
+                    <br clear="all" />
+                    
+                    <p>
+                        shopping bag, shopping, bag, merchandise, consumerism, gift:
+                    
+                        <br clear="all" /><br clear="all" />
+                        $<span class="price">80.00</span>
+                        
+                    </p>
+                    
+                    <br clear="all" />
+                    
+                    <button  class="add-to-cart-button">Add to Cart</button>
+                    
+                </div>
+                
+            </div>
+            <div class="detail-view" id="detail-12">
+                
+                <div class="close" align="right">
+                    <a href="javascript:void(0)">x</a>
+                    
+                </div>
+                
+                <img src="product_img/12.jpg" class="detail_images" width="340" height="310" alt="" />
+                
+                <div class="detail_info">
+                    
+                    <label class='item_name'>Black Large Shirt </label>
+                    <br clear="all" />
+                    
+                    <p>
+                        shopping shirts, shopping, shirts, merchandise, consumerism, gift:
+                    
+                        <br clear="all" /><br clear="all" />
+                        $<span class="price">80.00</span>
+                        
+                    </p>
+                    
+                    <br clear="all" />
+                    
+                    <button  class="add-to-cart-button">Add to Cart</button>
+                    
+                </div>
+                
+            </div>
+            
+            <!---->
+            
+            <li id="13">
+                <img src="product_img/13.jpg" class="items" height="100" alt="" />
+                
+                <br clear="all" />
+                <div><span class="name">Red Large </span> Shirt </div>
+            </li>
+            
+            <li id="14">
+                <img src="product_img/14.jpg" class="items" height="100" alt="" />
+                
+                <br clear="all" />
+                <div><span class="name">Green Large </span> Shirt </div>
+            </li>
+            
+            <li id="15">
+                <img src="product_img/15.jpg" class="items" height="100" alt="" />
+                
+                <br clear="all" />
+                <div><span class="name">Blue Large </span> Shirt </div>
+            </li>
+            
+            <li id="16">
+                <img src="product_img/16.jpg" class="items" height="100" alt="" />
+                
+                <br clear="all" />
+                <div><span class="name">Fancy Large </span> Shirt </div>
+            </li>
+            
+            <!-- Detail Boxes for above four li -->
+            
+            <div class="detail-view" id="detail-13">
+                
+                <div class="close" align="right">
+                    <a href="javascript:void(0)">x</a>
+                    
+                </div>
+                
+                <img src="product_img/13.jpg" class="detail_images" width="340" height="310" alt="" />
+                
+                <div class="detail_info">
+                    
+                    <label class='item_name'>Red Large Shirt </label>
+                    <br clear="all" />
+                    
+                    <p>
+                        shopping shirts, shopping, shirts, merchandise, consumerism, gift:
+                    
+                        <br clear="all" /><br clear="all" />
+                        $<span class="price">80.00</span>
+                        
+                    </p>
+                    
+                    <br clear="all" />
+                    
+                    <button  class="add-to-cart-button">Add to Cart</button>
+                    
+                </div>
+                
+            </div>
+            <div class="detail-view" id="detail-14">
+                
+                <div class="close" align="right">
+                    <a href="javascript:void(0)">x</a>
+                    
+                </div>
+                
+                <img src="product_img/14.jpg" class="detail_images" width="340" height="310" alt="" />
+                
+                <div class="detail_info">
+                    
+                    <label class='item_name'>Green Large Shirt </label>
+                    <br clear="all" />
+                    
+                    <p>
+                        shopping shirts, shopping, shirts, merchandise, consumerism, gift:
+                    
+                        <br clear="all" /><br clear="all" />
+                        $<span class="price">80.00</span>
+                        
+                    </p>
+                    
+                    <br clear="all" />
+                    
+                    <button  class="add-to-cart-button">Add to Cart</button>
+                    
+                </div>
+                
+            </div>
+            <div class="detail-view" id="detail-15">
+                
+                <div class="close" align="right">
+                    <a href="javascript:void(0)">x</a>
+                    
+                </div>
+                
+                <img src="product_img/15.jpg" class="detail_images" width="340" height="310" alt="" />
+                
+                <div class="detail_info">
+                    
+                    <label class='item_name'>Blue Large Shirt </label>
+                    <br clear="all" />
+                    
+                    <p>
+                        shopping, shirts, merchandise, consumerism, gift:
+                    
+                        <br clear="all" /><br clear="all" />
+                        $<span class="price">80.00</span>
+                        
+                    </p>
+                    
+                    <br clear="all" />
+                    
+                    <button  class="add-to-cart-button">Add to Cart</button>
+                    
+                </div>
+                
+            </div>
+            <div class="detail-view" id="detail-16">
+                
+                <div class="close" align="right">
+                    <a href="javascript:void(0)">x</a>
+                    
+                </div>
+                
+                <img src="product_img/16.jpg" class="detail_images" width="340" height="310" alt="" />
+                
+                <div class="detail_info">
+                    
+                    <label class='item_name'>Fancy Large Shirt </label>
+                    <br clear="all" />
+                    
+                    <p>
+                        shopping shirts, shopping, merchandise, consumerism, gift:
+                    
+                        <br clear="all" /><br clear="all" />
+                        $<span class="price">80.00</span>
+                        
+                    </p>
+                    
+                    <br clear="all" />
+                    
+                    <button  class="add-to-cart-button">Add to Cart</button>
+                    
+                </div>
+                
+            </div>
+            
+            <br clear="all" />
+        </ul>
+        <br clear="all" />
+    </div>
+    
+        
+</div>
+
+<div class="footer">
+        
+</div>
+<!-- 
+
+Ajax Shopping Cart: Created By Zeeshan Rasool on http://www.99points.info for more tutorials visit http://www.99points.info 
+
+-->
+</body>
+</apex:page>

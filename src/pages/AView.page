@@ -1,0 +1,36 @@
+<apex:page controller="TimeSheetContView" >
+
+<apex:form > 
+
+<apex:pageBlock title="A View Page">
+
+<apex:commandButton action="{!edit}" value="Edit" />
+<apex:commandButton action="{!cancel}" value="Cancel"/>
+<apex:commandButton action="{!adminView}" value="Full View" id="fulView"/>
+
+<apex:pageBlockSection columns="2">
+
+ A1 : <apex:outputField value="{!listObj1.A1__c}"/> 
+
+
+A2 : <apex:outputField value="{!listObj1.A2__c}"/> 
+
+
+A3 : <apex:outputField value="{!listObj1.A3__c}"/> 
+
+
+A4 : <apex:outputField value="{!listObj1.A4__c}"/> 
+
+</apex:pageBlockSection>
+<script>
+var fulViewbtn=document.getElementById("{!$Component.fulView}");
+var profVal='{!$Profile.name}';
+alert('-----'+profVal);
+if(profVal=='System Administrator'){
+     fulViewbtn.style.display="block";
+    }
+</script>
+</apex:pageBlock>
+</apex:form>  
+
+</apex:page>

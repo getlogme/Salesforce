@@ -1,0 +1,38 @@
+<apex:page standardController="Dealer_Contact__c" extensions="dealerLead">
+<apex:form >
+<apex:pageBlock title="Dealer Contact Edit">
+
+<apex:pageBlockButtons >
+<apex:commandButton action="{!save}" value="Save"/>
+<apex:commandButton action="{!cancel}" value="Cancel"/>
+<apex:commandButton action="{!saveNew}" value="Save& New"/>
+
+</apex:pageBlockButtons>
+<apex:pageBlockSection title="Information" columns="1" collapsible="false">
+<apex:pageBlockSectionItem >
+<apex:outputLabel >Lead</apex:outputLabel>
+<apex:inputField value="{!Dealer_Contact__c.Lead__c}"/>
+</apex:pageBlockSectionItem>
+<apex:pageBlockSectionItem >
+<apex:outputLabel >Dealer</apex:outputLabel>
+
+<apex:inputField value="{!Dealer_Contact__c.Dealer__c}"/>
+</apex:pageBlockSectionItem>
+<apex:pageBlockSectionItem >
+<apex:outputLabel >Dealer Sales</apex:outputLabel>
+                     <apex:selectList value="{!selDSales}" size="1">
+                         <apex:selectOption itemLabel="None" itemValue=""></apex:selectOption>
+                         <apex:selectOptions value="{!dSales}"></apex:selectOptions>
+                     </apex:selectList>
+
+</apex:pageBlockSectionItem>
+</apex:pageBlockSection>
+
+
+
+
+</apex:pageBlock>
+
+</apex:form>
+  
+</apex:page>

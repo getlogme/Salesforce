@@ -1,0 +1,4 @@
+<apex:page standardController="Account" tabStyle="Account" sidebar="false">
+    <apex:sectionHeader printUrl="www.test.com" description="Test Description" title="One of Your Opportunities" subtitle="Exciting !"/>
+    <apex:detail subject="{!account.Id}" relatedList="false" title="true"/>
+</apex:page>

@@ -1,0 +1,42 @@
+<apex:page standardController="Promotion__c" extensions="PromotionExtnController">
+    <script>
+     var newWin=null;
+     function openLookupPopup(name, id, id1)
+     {
+      var url="/apex/MMSBox?namefield=" + name + "&idfield=" + id+"&idfield1=" + id1;
+      newWin=window.open(url, 'Popup','height=500,width=950,left=100,top=100,resizable=no,scrollbars=yes,toolbar=no,status=no');
+      if (window.focus)
+      {
+       newWin.focus();
+      }
+        
+         return false;
+        }
+           
+     function closeLookupPopup()
+     {
+        if (null!=newWin)
+        {
+           newWin.close();
+        } 
+     }
+</script>
+    <apex:form > 
+    <apex:pageBlock >
+        <apex:pageBlockButtons >
+            <apex:commandButton value="Save" action="{!Save}"/>
+        </apex:pageBlockButtons>
+        <apex:pageBlockSection >
+            <apex:inputField value="{!Promotion__c.Name}"/>  
+            <apex:pageBlockSectionItem >
+            <apex:outputLabel >Account</apex:outputLabel> 
+            <apex:outputPanel > 
+            <apex:inputHidden value="{!accId}" id="targetId"/>
+            <apex:inputHidden value="{!secondaryAccIds}" id="secTragetId"/>           
+            <apex:inputText value="{!accName}" id="targetName" onFocus="this.blur()" disabled="false"/> <img src="/s.gif" style="cursor:pointer" onclick="openLookupPopup('{!$Component.targetName}', '{!$Component.targetId}','{!$Component.secTragetId}'); return false" class="lookupIcon" onmouseout="this.className='lookupIcon';" alt="SIC Name Lookup (New Window)" onmouseover="this.className='lookupIconOn';"/>
+            </apex:outputPanel>
+            </apex:pageBlockSectionItem> 
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+    </apex:form>  
+</apex:page>

@@ -1,0 +1,12 @@
+<apex:page controller="SearchStudents" >
+<table width="100%">
+
+Test
+</table>
+<apex:pageBlock title="My Content">
+        <apex:pageBlockTable value="{!search}" var="item">
+            <apex:column value="{!item.Student_Name__c}"/> 
+         </apex:pageBlockTable> 
+    </apex:pageBlock> 
+
+</apex:page>

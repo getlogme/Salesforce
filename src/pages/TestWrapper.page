@@ -1,0 +1,7 @@
+<apex:page controller="TestWrapperController" >
+  <apex:form >
+  <apex:outputText value="{!sBean.sName}"></apex:outputText>
+  <apex:outputText value="{!sBean.cName}"></apex:outputText>
+  <apex:outputText value="{!sBean.grade}"></apex:outputText>
+  </apex:form>
+</apex:page>

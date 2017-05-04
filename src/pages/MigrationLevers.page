@@ -1,0 +1,66 @@
+<apex:page controller="MigrationLevers">
+<table align="right" >
+<tr>
+<td>
+<apex:form > 
+   <apex:selectList value="{!selCoutry}" size="1">
+      <apex:selectOption itemLabel="Select Country" itemValue="Select Country"></apex:selectOption>
+      <apex:selectOptions value="{!coutries}"></apex:selectOptions>
+      <apex:actionSupport event="onchange" 
+                                action="{!connections}" 
+                                rerender="connections,yearSummary,heading" />
+
+  </apex:selectList>
+  </apex:form>
+  </td>
+  </tr>
+</table>
+<span><font size="6"><apex:outputLabel id="heading" value="{!selCoutry}"></apex:outputLabel></font></span><br/><br/>
+<apex:pageBlock id="connections"> 
+    <apex:pageBlockTable var="con" value="{!connection}" width="100%" >
+        <apex:column value="{!con.Connection}" headerValue="Connections" width="20%" />
+        <apex:column value="{!con.voice}" headerValue="Voice" width="20%"/>
+        <apex:column value="{!con.hh}" headerValue="HandHeld" width="20%"/>
+        <apex:column value="{!con.bb}" headerValue="BlackBerry" width="20%"/>
+        <apex:column value="{!con.mcc}" headerValue="MCC" width="20%"/>
+    </apex:pageBlockTable>
+</apex:pageBlock>
+<apex:pageMessages ></apex:pageMessages> 
+<apex:form > 
+<apex:pageBlock id="yearSummary">
+
+<apex:pageBlockButtons >
+    <apex:commandButton value="Save" action="{!save}"/>
+    <apex:commandButton value="Cancel" action="{!cancel}"/>
+</apex:pageBlockButtons>
+
+    <apex:pageBlockTable value="{!ySummary}" var="ys" width="100%" >
+        <apex:column width="10%">
+            <apex:facet name="header" >Year&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</apex:facet>
+            <apex:outputText value="{!ys.year}" rendered="{!ISNULL(ys.quarter)}"></apex:outputText>
+        </apex:column>
+        <apex:column width="10%">
+            <apex:facet name="header" >Quarter&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</apex:facet>
+            <apex:outputText value="{!ys.quarter}" ></apex:outputText>
+        </apex:column>
+        <apex:column width="20%">
+            <apex:facet name="header">Voice</apex:facet>
+            <apex:inputText value="{!ys.vquarter1}" rendered="{!NOT(ISNULL(ys.quarter))}" style="size:10" /><br/>
+        </apex:column>
+        <apex:column width="20%" >
+            <apex:facet name="header">HandHeld</apex:facet>
+            <apex:inputText value="{!ys.hhquarter1}" rendered="{!NOT(ISNULL(ys.quarter))}" style="size:10"/><br/>
+        </apex:column>
+        <apex:column width="20%" >
+            <apex:facet name="header">BlackBerry</apex:facet>
+            <apex:inputText value="{!ys.bbquarter1}" rendered="{!NOT(ISNULL(ys.quarter))}" size="20" /><br/>
+        </apex:column>
+        <apex:column width="20%">
+            <apex:facet name="header">MCC</apex:facet>
+            <apex:inputText value="{!ys.mccquarter1}" rendered="{!NOT(ISNULL(ys.quarter))}"/><br/>
+        </apex:column>
+    </apex:pageBlockTable>
+
+</apex:pageBlock>
+</apex:form>
+</apex:page>

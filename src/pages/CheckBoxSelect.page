@@ -1,0 +1,67 @@
+<apex:page controller="CheckBoxSelect" >
+  <apex:form > 
+  <div id="divId">
+  <apex:pageBlock >
+     <apex:commandButton action="{!save}" value="Save" onclick="send()"/>
+      <apex:pageBlockTable value="{!listStudents}" var="st">
+      <apex:column >
+       <apex:facet name="header" >test<apex:inputCheckbox id="allRec" value="{!allRecs}" onclick="checkAll(this)" /></apex:facet>
+       <apex:inputCheckbox value="{!st.id}" onclick="checkAll1(this,'{!$Component.allRec}')"/>
+      </apex:column>
+      <apex:column value="{!st.name}" headerValue="Name"/>    
+      <apex:column value="{!st.Course_Name__c}" headerValue=" Course Name"/>
+      </apex:pageBlockTable>
+  </apex:pageBlock>
+  </div>
+<script>  
+ var ids='';
+  function checkAll(test){
+    selRecCount=0;
+    inChbox=test.id;
+    var divObject=document.getElementById("divId");
+    var frmElements=divObject.getElementsByTagName("input");
+    if((frmElements!=null) && (frmElements.length>0)) {
+        var tempvar =frmElements.length;
+     
+       for(var i=0;i<tempvar;i++) {
+               
+                if(document.getElementById(test.id).checked==true){
+                   alert('jsjs '+document.getElementById(test.id));
+                   frmElements[i].checked=true;
+                   selRecCount++;
+                   ids=ids+document.getElementById(test.id).value;
+                }else{
+                    frmElements[i].checked=false;
+                    if(selRecCount>0){
+                        selRecCount--;
+                     }
+                }
+                
+            
+        }
+       
+    }
+   document.getElementById("counter").innerHTML=selRecCount+" Selected";
+}
+
+function checkAll1(test,test1){
+    var recCheckBox=document.getElementById(test.id);
+    
+    if(recCheckBox.checked==false){
+        if(document.getElementById(inChbox)!=null){
+            document.getElementById(inChbox).checked=false;
+        }
+        selRecCount--;
+    }else{
+        selRecCount++;
+    }
+   document.getElementById("counter").innerHTML=selRecCount+" Selected";
+    }
+    
+function send(){
+alert(ids);
+}
+</script> 
+
+ </apex:form> 
+</apex:page>

@@ -1,0 +1,104 @@
+<apex:page standardController="Task" extensions="TaskExtention" id="thePage">
+<script language="javascript">
+var whatId;
+
+whatId='{!selAccId}';
+function openPage(){
+whatId=document.getElementById('thePage:theForm:selAccountId').value;
+    window.open('/apex/LookupContact?Id='+whatId,"Lookup","location=1,status=0,scrollbars=1, width=700,height=500");
+    return false;
+}
+</script>
+<apex:form id="theForm"> 
+ <apex:inputHidden value="{!selAccId}" id="selAccountId"/>
+ <apex:pageBlock title="Task Edit" id="thePgBlk">
+     <apex:pageBlockButtons >
+      <apex:commandButton action="{!continue1}" value="Continue"/>
+      
+     </apex:pageBlockButtons>
+     <apex:pageBlockSection showHeader="true" collapsible="false" title="Task Information" columns="1" id="thePgBlkSct">
+            
+       <apex:pageBlockSectionItem id="thePgBlkSctItm" >
+       <apex:outputPanel id="thePgBlkSctItmop"> 
+        <apex:outputLabel value="Related To"></apex:outputLabel>
+        <apex:actionRegion >  
+        <apex:inputField value="{!Task.WhatId}" id="accId">
+            <apex:actionSupport event="onchange" action="{!testAction}" reRender="drpConNames" />
+         </apex:inputField>      
+        </apex:actionRegion> 
+        </apex:outputPanel>                      
+        </apex:pageBlockSectionItem>        
+         <apex:pageBlockSectionItem >&nbsp;
+         </apex:pageBlockSectionItem>    
+      <apex:pageBlockSectionItem >
+          <apex:outputPanel > 
+          <apex:outputLabel value="Name"></apex:outputLabel>
+          <apex:selectList value="{!conorLead}" multiselect="false" size="1"><apex:selectOptions value="{!nameOptions}"></apex:selectOptions></apex:selectList>
+          <apex:actionRegion > 
+          <apex:inputText value="{!contactName}" /> 
+          <apex:commandLink action="{!showPopup}" rerender="tstpopup"> <apex:image value="{!$Resource.lookup}" /></apex:commandLink>
+          </apex:actionRegion> 
+          </apex:outputPanel>
+      </apex:pageBlockSectionItem>
+              
+     </apex:pageBlockSection>
+     
+ </apex:pageBlock>
+ 
+ 
+ 
+ 
+ <apex:outputPanel id="tstpopup">
+        <apex:outputPanel styleClass="popupBackground" layout="block" rendered="{!displayPopUp}"/>
+            <apex:outputPanel styleClass="custPopup" layout="block" rendered="{!displayPopUp}">
+                <apex:actionRegion >
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <apex:commandButton style="align:right" value="Close"  action="{!closePopup}" rerender="tstpopup"/>
+                </apex:actionRegion><br/>
+                All Contacts which are associated to Selected Account<br/><br/><br/>
+                 <apex:pageBlock >
+                    <apex:pageBlockTable value="{!relContacts}" var="con">
+                        <apex:column headerValue="Contact Name" ><apex:commandLink action="{!selContact}">{!con.Name}<apex:param name="conName" value="{!con.Name}"/><apex:param name="conId" value="{!con.Id}"/></apex:commandLink></apex:column>
+                    </apex:pageBlockTable>
+                </apex:pageBlock>
+                                
+            </apex:outputPanel>
+        </apex:outputPanel>
+ 
+    </apex:form>
+ 
+    <style type="text/css">
+        .custPopup{
+            background-color: white;
+            border-width: 2px;
+            border-style: solid;
+            z-index: 9999;
+            left: 50%;
+            padding:10px;
+            position: absolute;
+            /* These are the 3 css properties you will need to change so the popup
+            displays in the center of the screen. First set the width. Then set
+            margin-left to negative half of what the width is. You can add
+            the height property for a fixed size pop up if you want.*/
+            width: 500px;
+            margin-left: -250px;
+            top:20px;
+        }
+        .popupBackground{
+            background-color:black;
+            opacity: 0.50;
+            filter: alpha(opacity = 50);
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 9998;
+        }
+
+    </style>
+</apex:page>

@@ -1,0 +1,89 @@
+<apex:page controller="DynamicCalcController" showHeader="false"  sidebar="false" showChat="true">
+ <link rel="Stylesheet" type="text/css" href="{!$Resource.extjs}/ext-3.1.1/resources/css/ext-all.css" />
+ <script type="text/javascript" src="{!$Resource.extjs}/ext-3.1.1/adapter/ext/ext-base.js"></script>
+ <script type="text/javascript" src="{!$Resource.extjs}/ext-3.1.1/ext-all.js"></script>
+ <script type="text/javascript" src="{!$Resource.ExtJsRowEditor}"></script>
+ 
+ 
+<script type="text/javascript">
+var fieldName;
+var originalVal;
+var updatedVal;
+
+Ext.onReady(function(){  
+
+//Ext.state.Manager.setProvider(new Ext.state.CookieProvider());
+var myDataString = 'var myData = [ ';
+<apex:repeat value="{!details}" var="con" id="ContactRepeat">
+ myDataString += "['{!con.Quantity__c}','{!con.Price__c}','{!con.Total__c}'],";
+</apex:repeat>
+myDataString += "['','',''] ];";
+eval(myDataString);
+var store = new Ext.data.SimpleStore({fields:[{name:'testNameSpacema__Quantity__c'},{name:'testNameSpacema__Price__c'},{name:'testNameSpacema__Total__c'}]});
+store.loadData(myData);
+// CREATE THE GRID
+var grid = new Ext.grid.EditorGridPanel({store: store, columns: [
+{id: 'testNameSpacema__Quantity__c', header: "Quantity", width: 200, sortable: true, dataIndex: 'testNameSpacema__Quantity__c', editor: new Ext.form.NumberField({ allowBlank: false, allowDecimals: false})},
+{id: 'testNameSpacema__Price__c', header: "Price", width: 200, sortable: true, dataIndex: 'testNameSpacema__Price__c', editor: new Ext.form.NumberField({ allowBlank: false, allowDecimals: false})},
+{id: 'testNameSpacema__Total__c', header: "Total", width: 150, sortable: true, dataIndex: 'testNameSpacema__Total__c',  renderer: total}
+
+],
+stripeRows:true,  height: 500, width: 750, title: 'MY EXT JS STUDENTS LIST'}); 
+
+grid.render('myStudentList-grid');
+
+grid.on('afteredit',function(e){
+//alert('testy'+e.value);
+//alert('testy'+e.originalValue);
+//alert('testy'+e.record);
+//alert('testy'+e.field);
+//alert('total'+e.record.data['testNameSpacema__Total__c']);
+fieldName=e.field;
+originalVal=e.originalValue;
+updatedval=e.value;
+    updateRec(originalVal,updatedval,fieldName);
+
+}
+
+);
+
+//grid.getSelectionModel().selectFirstRow();
+});
+
+
+function total(value, metadata, record, rowIndex, colIndex, store) {
+
+ var results = getCost(record);
+ 
+ return Ext.util.Format.usMoney(results);
+
+}
+
+//9. Calculates the cost
+
+function getCost(record) {
+
+ var quantity = record.get('testNameSpacema__Quantity__c');
+
+ var price = record.get('testNameSpacema__Price__c');
+
+ var results = quantity * price ;
+
+ 
+ return results;
+
+}
+
+
+
+</script> 
+
+<div id="myStudentList-grid"></div>
+ <apex:form id="frm1">
+     <apex:actionFunction action="{!updateRec}" name="updateRec" reRender="frm1">
+         <apex:param assignTo="{!originalVal}" name="originalVal"  value=""/>
+         <apex:param assignTo="{!updatedVal}" name="updatedVal" value=""/>
+         <apex:param assignTo="{!fieldName}" name="fieldName" value=""/>
+     </apex:actionFunction>
+ </apex:form>
+ </apex:page>

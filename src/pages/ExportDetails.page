@@ -1,0 +1,7 @@
+<apex:page controller="exampleCon" cache="true" contentType="text/csv#Details.csv" language="en-US">
+name, Id
+<apex:repeat value="{!exportexcel}" var="item">
+{!item.name}, {!item.id}
+
+</apex:repeat>
+</apex:page>

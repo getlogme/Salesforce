@@ -1,0 +1,223 @@
+<apex:page StandardController="case" Extensions="AskSalesCoordinatorNew" tabStyle="Case" id="thepage">
+<apex:includeScript value="{!URLFOR($Resource.jquery, 'js/jquery-1.4.2.min.js')}"/>
+<script>
+    function doSearch() 
+    {        
+        SearchServer(document.getElementById("partnumber").value);       
+    } 
+    </script>
+    <apex:sectionHeader id="sh1" title="Ask Sales Coordinator Email Helper" subtitle="{!RecName}"/>  
+    <style>
+        .col1 {width: 300px;}
+        .z { margin-left:22%; }
+        .p { margin-left:15%; }
+        .c { margin-left:24%; }
+        .e { margin-left:7.5%;}
+    </style>  
+    <apex:form id="theForm"  >
+    <apex:inputHidden value="{!userAgent}" id="usrAgent"/>
+    
+        <apex:actionFunction name="SearchServer" action="{!customsearch}" reRender="w1" >
+            <apex:param name="partnumber" value="" />
+        </apex:actionFunction>
+        <apex:pageMessages />
+        <apex:pageBlock id="thePageBlock">
+            <apex:pageBlockButtons >
+                <!--<apex:commandButton id="addto" action="{!addtolist}" value="Add To" reRender="w2,w3,w4"/>
+                <apex:commandButton id="addbcc" action="{!addbcclist}" value="Add Bcc"/>
+                <apex:commandButton id="addcc" action="{!addcclist}" value="Add Cc"/>
+                <apex:commandButton id="remove" action="{!removeProducts}" value="Remove"/>-->
+                <apex:commandButton value="Back" action="{!back}"/>
+                <apex:commandButton value="Send Email"/>
+                <apex:commandButton value="Cancel" action="{!back}"/>
+                
+            </apex:pageBlockButtons>         
+                      
+            
+        
+        <br/>
+        <apex:pageBlockSection id="pbs3" title="Recipients" columns="1">
+        </apex:pageBlockSection>
+        <div class="c">
+            <b><apex:outputText value=""/></b> <br/>
+        </div><br/>
+        <div class="p">
+       
+        <div class="e">
+        
+                
+            <b><apex:outputText value=""/></b>
+            &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+            &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+                
+                
+            <b><apex:outputText value=""/></b>
+            &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+            &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+                
+            
+            
+            <b><apex:outputText value=""/></b>
+            &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+            &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+            
+            <b><apex:outputText value=""/></b>
+            &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+            &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+          
+        </div>
+        
+        <table>
+            <tr> <td>
+                <b><font size="2"> Available Contacts </font></b>  &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;             
+                <input id="partnumber" title="Search"  type="text" onkeyup="doSearch(this)"/>
+                                     
+                                              
+                </td>
+                <td/>
+                <td><b><font size="2"> Selected Contacts </font></b></td>
+            </tr>
+            
+            <tr>            
+                <td rowspan="9">
+           <apex:outputPanel id="Te1">     
+        <apex:selectList id="w1" value="{!SelectedValuescc}" size="22" multiselect="true" tabindex="1" styleClass="col1" > 
+            <apex:selectOptions value="{!PickListOptions1}"  />
+        </apex:selectList>
+        </apex:outputPanel>
+                </td>        
+        &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+                <td/>
+                <td><b><font size="4"> TO: </font></b></td>                            
+            </tr>
+            <tr>
+                <td/>
+                <td colspan="1">
+                
+                     <script>        
+                            if(navigator.userAgent.match(/iPad/i)){
+                                
+                                var toipadlisthtml='<apex:outputPanel id="ipadsltdToList" > 
+                                        <apex:repeat value="{!sltdToList}" var="sc">
+                                            <apex:panelGrid columns="1" id="theGrid">
+                                                <apex:outputText value="{!sc}"/>
+                                            </apex:panelGrid>
+                                        </apex:repeat> 
+                                    </apex:outputPanel> ';                                
+                                document.write(toipadlisthtml);
+                            }
+       
+                   </script>          
+                
+                </td>
+            </tr>
+            <tr>
+                <td align="center" style="vertical-align:middle">
+                    <apex:commandButton id="addto" action="{!addtolist}" value=">>>" reRender="w1,w2,w3,w4,ipadsltdToList"/> <br/> <br/>
+                    <apex:commandButton id="removeto" action="{!removeProducts}" value="<<<" reRender="w1,w2,ipadsltdToList"  />
+                </td>
+                <td>
+                    <apex:selectList value="{!Values2Removefromtolist}" size="5" multiselect="true" tabindex="3" styleClass="col1" id="w2">
+                    <apex:selectOptions value="{!getAddtoList}" /> 
+                    </apex:selectList> 
+        
+                </td>
+            </tr>
+                    &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+            
+            <tr>
+                <td/>
+                <td><b><font size="4"> CC: </font></b></td>
+            </tr>
+            <tr>
+                <td/>
+                <td colspan="1">
+                
+                     <script>        
+                            if(navigator.userAgent.match(/iPad/i)){
+                                
+                                var ccipadlisthtml='<apex:outputPanel id="ipadsltdccList" > 
+                                        <apex:repeat value="{!sltdCcList}" var="sc">
+                                            <apex:panelGrid columns="1" id="theGrid">
+                                                <apex:outputText value="{!sc}"/>
+                                            </apex:panelGrid>
+                                        </apex:repeat> 
+                                    </apex:outputPanel> ';                                
+                                document.write(ccipadlisthtml);
+                            }
+       
+                   </script>          
+                
+                </td>
+            </tr>
+            <tr>
+                <td align="center" style="vertical-align:middle">
+                    <apex:commandButton id="addcc" action="{!addcclist}" value=">>>" reRender="w1,w2,w3,w4,ipadsltdccList"/> <br/> <br/>
+                    <apex:commandButton id="removecc" action="{!removeProducts}" value="<<<" reRender="w1,w4,ipadsltdccList"/>
+                </td>
+                <td>
+        
+        <apex:selectList value="{!Values2Removefromcclist}" size="5" multiselect="true" tabindex="3" styleClass="col1" id="w4">
+            <apex:selectOptions value="{!getAddccList}" /> 
+        </apex:selectList> 
+        
+                </td>
+            </tr> 
+             &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+            <tr>
+                <td/>
+                <td><b><font size="4"> BCC: </font></b></td>
+            </tr>
+            <tr>
+                <td/>
+                <td colspan="1">
+                
+                     <script>        
+                            if(navigator.userAgent.match(/iPad/i)){
+                                
+                                var bccipadlisthtml='<apex:outputPanel id="ipadsltdbccList" > 
+                                        <apex:repeat value="{!sltdBccList}" var="sc">
+                                            <apex:panelGrid columns="1" id="theGrid">
+                                                <apex:outputText value="{!sc}"/>
+                                            </apex:panelGrid>
+                                        </apex:repeat> 
+                                    </apex:outputPanel> ';                                
+                                document.write(bccipadlisthtml);
+                            }
+       
+                   </script>          
+                
+                </td>
+            </tr>
+            <tr>
+                <td align="center" style="vertical-align:middle">
+                    <apex:commandButton id="addbcc" action="{!addbcclist}" value=">>>" reRender="w1,w2,w3,w4,ipadsltdbccList"/> <br/> <br/>
+                    <apex:commandButton id="removebcc" action="{!removeProducts}" value="<<<" reRender="w1,w3,ipadsltdbccList"/>
+                </td>
+                <td>      
+        <apex:selectList value="{!Values2Removefrombcclist}" size="5" multiselect="true" tabindex="3" styleClass="col1" id="w3">
+            <apex:selectOptions value="{!getAddbccList}" /> 
+        </apex:selectList> 
+                </td>
+            </tr>
+        &nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp; &nbsp;
+                       
+        </table>  
+             
+        </div> 
+          
+            <apex:pageBlockSection id="pbs1" title="Edit Email" columns="1">                
+                <apex:inputText value="{!subject}" label="Subject" size="80" />
+                <apex:inputTextArea value="{!msg}" label="Body" cols="80" rows="20"/>
+            </apex:pageBlockSection>
+            
+            <apex:pageBlockSection id="pbs2" title="Email Attachments" columns="1">
+                <apex:repeat value="{!attchList}" var="file">
+                    <apex:outputText value="{!file.Name}" />
+                </apex:repeat>
+            </apex:pageBlockSection>      
+        </apex:pageBlock>
+    </apex:form> 
+              
+      
+</apex:page>

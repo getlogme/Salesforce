@@ -1,0 +1,7 @@
+<apex:page standardController="Case" extensions="RecordTypeCustomCtrl" >
+    <apex:form > 
+    <apex:selectList value="{!selRecType}" size="1">
+        <apex:selectOptions value="{!recTypeList}"></apex:selectOptions>
+    </apex:selectList>  
+    </apex:form>
+</apex:page>

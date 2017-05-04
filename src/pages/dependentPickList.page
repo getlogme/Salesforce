@@ -1,0 +1,21 @@
+<apex:page controller="DependentObjects" >
+  <apex:form >
+    
+      
+         
+          <apex:selectList value="{!category}" size="1" id="category" >
+          <apex:actionSupport event="onchange" rerender="features"/>
+          <apex:selectOptions value="{!categories}" />
+          </apex:selectList>
+        
+    
+   
+     <apex:selectList value="{!feature}" size="1" id="features" disabled="{!ISNULL(category)}">
+         <apex:selectOptions value="{!features}"/>
+     </apex:selectList>
+     <apex:inputText value="{!testCat}"/>
+  </apex:form>
+
+  
+
+</apex:page>

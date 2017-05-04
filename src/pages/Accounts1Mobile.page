@@ -1,0 +1,230 @@
+<apex:page docType="html-5.0" sidebar="false" showHeader="false" standardStylesheets="false" cache="false" controller="AccountMobileController" >
+    <html>
+        <head>
+            <style>
+                div #map_canvas { height: 400px; }
+            </style>
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0; user-scalable=no" />
+            <meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
+            <!-- include jquery mobile -->
+            <apex:stylesheet value="{!URLFOR($Resource.jQueryMobile101, 'jquery.mobile-1.0.1/jquery.mobile-1.0.1.min.css')}" />
+            <apex:includeScript value="{!URLFOR($Resource.jQueryMobile101, 'jquery.mobile-1.0.1/demos/jquery.js')}"/>
+            <apex:includeScript value="{!URLFOR($Resource.jQueryMobile101, 'jquery.mobile-1.0.1/jquery.mobile-1.0.1.min.js')}"/>
+            <apex:includeScript value="{!URLFOR($Resource.Cordova, 'Cordova/cordova-1.8.1.js')}"/>
+            <apex:includeScript value="{!URLFOR($Resource.Cordova, 'Cordova/SalesforceOAuthPlugin.js')}"/>
+          
+            <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=true"></script>
+            <script>
+                var accountRecs = new Array();
+                var $j = jQuery.noConflict(); 
+                $j(document).ready(function() {
+                    //Check online status
+                    if (!navigator.onLine) {
+                         $j('#accountList').empty();
+                         $j('#accList').append('<h2>No Internet Connection</h2>');
+                         return;
+                    }        
+                    //If the page goes offline
+                    $j(window).bind('offline',function(e){
+                        $j.mobile.changePage('#listpage', {changeHash: true});
+                        $j('#accountList').empty();
+                        $j('#accList').append('<h2>No Internet Connection</h2>');
+                    })       
+                    $j.mobile.showPageLoadingMsg();
+                    getAccount(function(){
+                        $j.mobile.hidePageLoadingMsg();
+                    });
+                });
+                
+                
+                
+                function getAccount(callback) {
+                    $j('#accountList').empty();
+                    //Invoke JS Remoting function to retrieve Account Records 
+                    AccountMobileController.getAccountRecs(function(records, e) { 
+                                                                    showAccount(records, callback) }, 
+                                                                    {escape:true}); 
+                }
+                function showAccount(records, callback) {
+                    accountRecs.length = 0;
+                    //Iterate through Account records and add each rec. to the page DOM
+                    for(var i = 0; i < records.length; i++) { 
+                        accountRecs[records[i].Id] = records[i]; 
+                    }
+                    var x = 0;
+                    $j.each(records,
+                        function() {
+                        var newLi = $j('<li></li>');
+                                    
+                        var newLink = $j('<a id="' +this.Id+ '" data-transition="flip"><h2>' +this.Name+ '</h2></a>');
+                        newLink.click(function(e) {
+                            e.preventDefault();
+                            $j.mobile.showPageLoadingMsg();
+                            $j('#accountName').html(accountRecs[this.id].Name);
+                            $j('#shippingstreet').html(accountRecs[this.id].ShippingStreet);
+                            $j('#shippingcity').html(accountRecs[this.id].ShippingCity);
+                            $j('#shippingstate').html(accountRecs[this.id].ShippingState);
+                            $j('#accountId').val(accountRecs[this.id].Id);
+                            $j.mobile.hidePageLoadingMsg();
+                            $j.mobile.changePage('#detailpage', {changeHash: true});
+                        });
+                        newLi.append(newLink);            
+                        newLi.clone(true, true).appendTo('#accountListDetail');
+                        newLi.appendTo('#accountList');
+                        x++;
+                      });
+                    
+                    $j('#accountList').listview('refresh');
+                    if(callback != null) { 
+                        callback(); 
+                    }
+                }  
+                function logoutFunc(){
+                    var sfOAuthPlugin = cordova.require("salesforce/plugin/oauth");
+                    sfOAuthPlugin.logout();
+                }
+                
+                function searchAcc(){
+                    alert('Development in progress');
+                }
+                
+                
+                
+                
+            </script>
+        </head>
+        
+        <script>
+        
+        function naviAcc(){
+                   window.location = '/apex/linkLocation';
+                }
+                
+                </script>
+        <body>     
+        
+        <!-- Main page, to display list of account once app starts -->
+        <div data-role="page" data-theme="b" id="listpage"> 
+            <div  data-role="header">
+                <a href="javascript:logoutFunc()" id="link_logout" data-role="button" data-icon='delete'>Log Out</a>
+                <h2>Accounts List</h2>
+                <a href="javascript:searchAcc()" id="home1" data-role="button" data-icon='search'>Search</a>
+            </div>   
+            
+            <div id="map_canvas"></div>   
+                
+            <div data-role="content" id="accList">            
+                <ul id="accountList" data-filter="true" data-inset="true" data-role="listview" data-theme="c" data-dividertheme="b"/>
+            </div>
+        </div>
+        
+        <div data-role="page" data-theme="b" id="detailpage">
+            <div data-role="header" data-position="fixed">
+                <a href='#listpage' id="back2account" class='ui-btn-left' data-icon='arrow-l' data-direction="reverse" data-transition="flip">Back</a>
+                <h1>Account Details</h1>
+            </div>
+            <div data-role="content">
+                <div id="leftPanel" style="display:none" >
+                    <ul id="accountListDetail" data-inset="true" data-role="listview" 
+                        data-theme="c" data-dividertheme="b">
+                    </ul>    
+                </div>
+                <div id="rightPanel">
+                    <h1 id="accountName"></h1>
+                    <table>
+                        <tr><td><b>Shipping Street:</b></td><td id="shippingstreet"></td></tr>
+                        <tr><td><b>Shipping City:</b></td><td id="shippingcity"></td></tr>
+                        <tr><td><b>Shipping State:</b></td><td id="shippingstate"></td></tr>
+                    </table>
+                    <input type="hidden" id="accountId" />
+                </div>    
+            </div>
+        </div>
+    </body>
+    <script type="text/javascript">
+    var accounts1 = {!accountsJson};    // Array of contact data, some of them might have lat/long info, some well have to geocode client side
+    var coords1 = [];     
+    var coords2 = [];                  
+    var requestCounter = 0;
+    var markers = [];                  // Red things we pin to the map.
+    
+    function geocodeClientSide() {
+        
+        for(var i = 0; i < accounts1.length; i++) {
+            if(accounts1[i].Location_Latitude__c != null && accounts1[i].Location_Longitude__c != null) {
+                coords1.push(new google.maps.LatLng(accounts1[i].Location_Latitude__c, accounts1[i].Location_Longitude__c));
+            } else {
+                ++requestCounter;
+                var address = accounts1[i].ShippingStreet + ' ' + accounts1[i].ShippingCity + ' ' + accounts1[i].ShippingState+ ' ' + accounts1[i].ShippingPostalCode + ' ' + accounts1[i].ShippingCountry;
+                var geocoder = new google.maps.Geocoder();
+                if (geocoder) {
+                    geocoder.geocode({'address':address}, function (results, status) {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            coords1.push(results[0].geometry.location);
+                        } else {
+                            var pTag = document.createElement("p");
+                            pTag.innerHTML = status;
+                            document.getElementById('log').appendChild(pTag);
+                        }
+                        if(--requestCounter == 0) {
+                            drawMap();
+                        }
+                    });
+                }
+            }
+        }
+        // It could be the case that all was geocoded on server side (or simply retrieved from database).
+        // So if were lucky - just proceed to drawing the map.
+        if(requestCounter == 0) {
+            drawMap();
+        }
+    }
+    function drawMap(){
+        var mapOptions = {
+            center: coords2[0],
+            zoom: 10,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("map_canvas"),  mapOptions);
+        var marker = new google.maps.Marker({map: map, position: coords2[0], title:'Current Location'});
+        iconFile = 'https://maps.google.com/mapfiles/ms/icons/green-dot.png'; 
+        marker.setIcon(iconFile); 
+        google.maps.event.addListener(marker, 'click', function() {
+            var infowindow = new google.maps.InfoWindow({
+                content: "<b> Current Location</b>"
+            });
+            infowindow.open(map,this);
+        });
+        markers.push(marker);
+        for(var i = 0; i < coords1.length; ++i){
+            var marker = new google.maps.Marker({map: map, position: coords1[i], title:accounts1[i].Name, zIndex:i});
+            var index = this.zIndex;
+                //var prefLink='https://'+document.domain;
+                //var url1 = '<a href="'+prefLink+'/apex/newTest">Create SCA</a>';
+                var url1 = '<a href="https://na11.salesforce.com/apex/newTest">Create SCA</a>';
+                
+                var infowindow = new google.maps.InfoWindow({
+                    content: "<b>"+accounts1[index].Name+"</b><br><br>" + url1      
+                    
+                    
+                    
+                });
+            
+            
+            google.maps.event.addListener(infowindow , 'click', function() {
+                
+               // alert(document.domain);
+                infowindow.open(map,this);
+            });
+            markers.push(marker);
+        }
+    }
+    navigator.geolocation.getCurrentPosition(function(position){
+        lat = position.coords.latitude;
+        long = position.coords.longitude;
+        coords2.push(new google.maps.LatLng(lat, long)); 
+        geocodeClientSide();  
+    });      
+    </script>
+</html>
+</apex:page>

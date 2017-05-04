@@ -1,0 +1,4 @@
+<apex:page standardController="Student_Details__c"  >
+  
+  Test
+  </apex:page>

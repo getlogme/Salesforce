@@ -1,0 +1,10 @@
+<apex:page showHeader="false" controller="Hello">
+<apex:form >
+<apex:inputText value="{!theText}"/>
+<apex:commandButton value="Go"
+action="{!action}" rerender="dynamic"/>
+</apex:form>
+<apex:outputPanel id="dynamic">
+{!theText}
+</apex:outputPanel>
+</apex:page>

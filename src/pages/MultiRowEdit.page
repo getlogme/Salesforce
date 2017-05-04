@@ -1,0 +1,186 @@
+<apex:page controller="StudentDetailsController" >
+ <link rel="Stylesheet" type="text/css" href="{!$Resource.extjs}/ext-3.1.1/resources/css/ext-all.css" />
+ <script type="text/javascript" src="{!$Resource.extjs}/ext-3.1.1/adapter/ext/ext-base.js"></script>
+ <script type="text/javascript" src="{!$Resource.extjs}/ext-3.1.1/ext-all.js"></script>
+ 
+<script type="text/javascript">
+var strNames=''; 
+    Ext.onReady(function(){
+    
+    var Checkbox = new Ext.grid.CheckboxSelectionModel();
+     var fm = Ext.form;
+    var myDataString = 'var myData = [ ';
+        <apex:repeat value="{!studentDetails}" var="con" id="ContactRepeat">
+            myDataString += "['{!con.name}','{!con.Student_Name__c}','{!con.Course_Name__c}','{!con.marks__c}','{!con.Grade__c}'],";
+        </apex:repeat>
+        myDataString += "['','','','',''] ];";
+        eval(myDataString);
+        var store = new Ext.data.SimpleStore({fields:[{name:'name'},{name:'testNameSpacema__Student_Name__c'},{name:'testNameSpacema__Course_Name__c'},{name:'testNameSpacema__marks__c'},{name:'testNameSpacema__Grade__c'}]});
+        store.loadData(myData);
+        //CREATES GRID Columns
+        var grcm=new Ext.grid.ColumnModel({
+            defaults: {
+            sortable: true // columns are not sortable by default           
+            },
+
+            columns: [Checkbox,
+            {
+                    id: 'name',
+                    header: "name",
+                    width: 200,
+                    dataIndex: 'name',
+                    editor: new fm.TextField({
+                        allowBlank: false
+                    })
+            },
+
+            {
+                id: 'testNameSpacema__Student_Name__c',
+                header: "Full Name",
+                width: 200,
+                dataIndex: 'testNameSpacema__Student_Name__c',
+                editor: new fm.TextField({
+                        allowBlank: false
+                })
+            },
+
+            {
+                    id: 'testNameSpacema__Course_Name__c',
+                header: "Course Name",
+                width: 150,
+                dataIndex: 'testNameSpacema__Course_Name__c',
+                editor: new fm.TextField({
+                        allowBlank: false
+                })
+
+            },
+
+            {
+                    
+                    id: 'testNameSpacema__marks__c',
+                header: "Marks",
+                width: 100,
+                dataIndex: 'testNameSpacema__marks__c',
+                editor: new fm.TextField({
+                        allowBlank: false
+                })
+
+            },
+
+            {
+                    
+                id: 'testNameSpacema__Grade__c',
+                header: "Grade",
+                width: 100,
+                dataIndex: 'testNameSpacema__Grade__c',
+                
+
+            }
+            ]       
+        
+        
+        
+        
+        })
+    
+// CREATE THE GRID
+
+var grid = new Ext.grid.EditorGridPanel({store: store,clicksToEdit:2,sm: Checkbox, 
+    tbar: [
+    {
+    text: 'Update All',
+    handler: function(){
+    alert('test')
+    
+    },
+   items: [{
+        editor: new fm.TextField({
+                        allowBlank: false
+                })
+        
+    }]
+    }],
+    listeners: { afteredit:{
+    fn: function(object, changes, r, rowIndex) {
+      var cm = object.grid.colModel, fields = object.value;
+      alert('test'+fields);
+      alert('record'+object.row);
+      
+
+    //grid.getSelectionModel().selectFirstRow() 
+    }}},
+    cm: grcm , clicksToEdit: 'auto',stripeRows:true,  height: 500, stripeRows:true, width: 750, title: 'MY EXT JS STUDENTS LIST'}); 
+
+grid.render('myStudentList-grid');
+grid.getSelectionModel().on('selectionchange', function(sm){
+     //alert('test'+sm.getSelections().length);
+     //for(var i=0;i<sm.getSelections().length;i++){
+     //alert(sm.getSelections()[sm.getSelections().length-1].get('name')); 
+     
+    // alert(sm.getSelections());
+     //alert(sm.getSelections().length-1);
+        // alert(sm);
+          
+     if(sm.getSelections()!=null || sm.getSelections()!=''){
+         if(strNames==''){         
+             strNames=sm.getSelections()[sm.getSelections().length-1].get('name');
+         }else{
+                 if(sm.getSelections().length>0){
+                     strNames+='~'+sm.getSelections()[sm.getSelections().length-1].get('name');
+                 }
+         }
+     }
+     
+    //}
+    // alert('strNames'+strNames);
+        //  setAllNames(strNames); 
+         
+        });
+           
+   
+});
+
+function fnUpdate(allNames){
+//alert('-------');
+//alert('-------'+strNames);
+document.getElementById(allNames).value=strNames;
+//setAllNames(strNames); 
+}
+</script> 
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+        <td>&nbsp;</td>
+   </tr>
+   <tr>
+        <td>
+        <apex:form >
+        <apex:outputLabel value="Grade"></apex:outputLabel> &nbsp;&nbsp;: &nbsp;&nbsp;
+            
+            <apex:selectList value="{!status}"  size="1">
+                <apex:selectOption itemLabel="--Select--" itemValue="select"/>
+                <apex:selectOption itemLabel="Excellent" itemValue="Excellent"/>
+                <apex:selectOption itemLabel="Very Good" itemValue="Very Good"/>
+                <apex:selectOption itemLabel="Good" itemValue="Good"/>
+                <apex:selectOption itemLabel="Poor" itemValue="Poor"/>
+            </apex:selectList>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <apex:commandButton value="Update All"  action="{!updateAll}" onclick="fnUpdate('{!$Component.allNames}')">
+                 </apex:commandButton>
+            <apex:inputHidden id="allNames" value="{!allNames}"/>
+           </apex:form>
+
+        </td>
+     </tr>
+   
+   <tr>
+        <td>&nbsp;</td>
+   </tr>
+   
+        <tr>
+            <td>
+                <div id="myStudentList-grid"></div>
+             </td>
+            </tr>
+            
+</table>
+ </apex:page>

@@ -1,0 +1,21 @@
+<apex:page renderAs="PDF"  >
+<style type="text/css">  
+@page  {    
+/* Landscape orientation */    
+size:potrait;  
+overflow:auto;  
+/* Put page numbers in the bottom right corner of each    page in the pdf document. */    
+@bottom-right {      
+content: "Page " counter(page);    
+}  
+}
+</style>
+<table width="100%" border="2">
+<tr width="100%"><td width="100%">
+<apex:panelGrid > 
+    <h1>Congratulations khsdkfj kjsdhfk sdkfhsdk fsdkjhfsdkj f kjsdhksdhksdhfksdhfksdhfksdhfksddhfksdjhfksdjhfsdkjfhkjsdhfkjsdhfjksdksdhfkjsdfkjsdhfkjsdhfkweyroweyroweiuroiweurowieuroweiuroweiuroweiurroweiruoweiuroiweruweoiruweioruweoeiruweoruweoruweoiuroweijsdmadhu</h1>
+</apex:panelGrid>
+</td>
+</tr>
+</table>
+</apex:page>

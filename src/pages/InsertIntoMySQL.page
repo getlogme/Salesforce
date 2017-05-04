@@ -1,0 +1,20 @@
+<apex:page controller="InsertIntoMySQL">
+<apex:form > 
+<apex:pageBlock >
+    <apex:pageBlockButtons >
+        <apex:commandButton action="{!insertRec}" value="Save"/>
+    </apex:pageBlockButtons>
+    <apex:pageBlockSection columns="2">
+        <apex:pageBlockSectionItem >
+            <apex:outputLabel >Employee Number</apex:outputLabel>
+            <apex:inputText value="{!eno}"/>
+        </apex:pageBlockSectionItem>
+        
+        <apex:pageBlockSectionItem >
+            <apex:outputLabel >Employee Name</apex:outputLabel>
+            <apex:inputText value="{!ename}"/>
+        </apex:pageBlockSectionItem>
+    </apex:pageBlockSection>
+</apex:pageBlock>
+</apex:form>
+</apex:page>

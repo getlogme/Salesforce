@@ -1,0 +1,14 @@
+<apex:page standardController="Case" extensions="RedirectPageSelectorController" >
+<apex:form > 
+  <apex:pageBlock Title="Select Record Type">
+      <apex:selectList value="{!selRecType}" size="1">
+          <apex:selectOptions value="{!recTypeList}"></apex:selectOptions>
+          
+      </apex:selectList>
+      <apex:pageBlockButtons location="bottom">
+          <apex:commandButton value="Continue" action="{!getRedir}" />
+          <apex:commandButton value="Cancel" action="{!cancel}"/>
+      </apex:pageBlockButtons>
+  </apex:pageBlock>
+</apex:form>
+</apex:page>

@@ -1,0 +1,23 @@
+<apex:page standardcontroller="Contact" extensions="SendSMSContactExtension" tabStyle="Contact" >
+ <span style="font-weight:bold; color:red">
+ <apex:messages />
+ </span>
+ <apex:form >
+ <apex:pageBlock title="Send SMS to {!contact.name}">
+ <apex:pageBlockSection >
+ <apex:pageBlockSectionItem >
+ <apex:outputLabel for="message" value="Enter your message:" />
+ <apex:inputText id="message" value="{!message}" size="80" required="true" />
+ </apex:pageBlockSectionItem>
+ <apex:pageBlockSectionItem >
+ <apex:outputLabel for="recipient" value="Mobile Number" />
+ <apex:outputText id="recipient" value="{!contact.MobilePhone}" />
+ </apex:pageBlockSectionItem>
+ <apex:pageBlockSectionItem >
+ <apex:commandButton action="{!sendSMS}" value="Send" id="sendButton" />
+ <apex:commandButton action="{!cancel}" value="Cancel" id="cancelButton" />
+ </apex:pageBlockSectionItem>
+ </apex:pageBlockSection>
+ </apex:pageBlock>
+ </apex:form>
+</apex:page>

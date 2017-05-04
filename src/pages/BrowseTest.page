@@ -1,0 +1,24 @@
+<apex:page controller="BrowseTest">
+<apex:form > 
+  <apex:pageBlock >
+      <apex:outputLabel >File</apex:outputLabel>
+      <apex:inputFile value="{!afile}"></apex:inputFile>
+      <apex:commandButton value="Extract" action="{!extract}"/>
+  </apex:pageBlock>
+  <apex:pageBlock id="table">
+      <apex:pageBlockTable value="{!accData}" var="ad" border="1"  rules="cols,rows" >
+          <apex:column headerValue="Customer ID" value="{!ad.custId}"/>
+          <apex:column headerValue="Account Name" value="{!ad.accName}"/>
+          <apex:column headerValue="Billing Street" value="{!ad.billingStreet}"/>
+          <apex:column headerValue="Postal Code" value="{!ad.postalCode}"/>
+          <apex:column headerValue="Billing City" value="{!ad.billingCity}"/>
+          <apex:column headerValue="Phone" value="{!ad.phone}"/>
+          <apex:column headerValue="Fax" value="{!ad.fax}"/>
+          <apex:column headerValue="Brick" value="{!ad.brick}"/>
+          <apex:column headerValue="Owner" value="{!ad.owner}"/>
+          <apex:column headerValue="Status" value="{!ad.status}"/>
+      </apex:pageBlockTable>
+  
+  </apex:pageBlock>
+</apex:form>
+</apex:page>

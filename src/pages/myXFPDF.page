@@ -1,0 +1,2 @@
+<apex:page controller="myXFDFController" action="{!XFDFInit}" showHeader="false">
+</apex:page>

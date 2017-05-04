@@ -1,0 +1,25 @@
+<apex:page controller="TimeSheetContView">
+  <apex:form > 
+<apex:pageBlock title="A View Page">
+<apex:pageBlockButtons >
+<apex:commandButton action="{!edit}" value="Edit"/>
+<apex:commandButton action="{!cancel}" value="Cancel"/>
+</apex:pageBlockButtons>
+<apex:pageBlockSection columns="2">
+<apex:pageBlockSectionItem >
+ A1 : <apex:outputField value="{!listObj1.B1__c}"/> 
+</apex:pageBlockSectionItem>
+<apex:pageBlockSectionItem >
+A2 : <apex:outputField value="{!listObj1.B2__c}"/> 
+</apex:pageBlockSectionItem>
+<apex:pageBlockSectionItem >
+A3 : <apex:outputField value="{!listObj1.B3__c}"/> 
+</apex:pageBlockSectionItem>
+<apex:pageBlockSectionItem >
+A4 : <apex:outputField value="{!listObj1.B4__c}"/> 
+</apex:pageBlockSectionItem>
+
+</apex:pageBlockSection>
+
+</apex:pageBlock>
+</apex:form></apex:page>

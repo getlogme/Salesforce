@@ -1,0 +1,100 @@
+<apex:page controller="StudentDetailsController" >
+ <link rel="Stylesheet" type="text/css" href="{!$Resource.extjs}/ext-3.1.1/resources/css/ext-all.css" />
+ <script type="text/javascript" src="{!$Resource.extjs}/ext-3.1.1/adapter/ext/ext-base.js"></script>
+ <script type="text/javascript" src="{!$Resource.extjs}/ext-3.1.1/ext-all.js"></script>
+ 
+<script type="text/javascript">
+    Ext.onReady(function(){
+     var fm = Ext.form;
+    var myDataString = 'var myData = [ ';
+        <apex:repeat value="{!studentDetails}" var="con" id="ContactRepeat">
+            myDataString += "['{!con.name}','{!con.Student_Name__c}','{!con.Course_Name__c}','{!con.marks__c}','{!con.Grade__c}'],";
+        </apex:repeat>
+        myDataString += "['','','','',''] ];";
+        eval(myDataString);
+        var store = new Ext.data.SimpleStore({fields:[{name:'name'},{name:'testNameSpacema__Student_Name__c'},{name:'testNameSpacema__Course_Name__c'},{name:'testNameSpacema__marks__c'},{name:'testNameSpacema__Grade__c'}]});
+        store.loadData(myData);
+        //CREATES GRID Columns
+        var grcm=new Ext.grid.ColumnModel({
+            defaults: {
+            sortable: true // columns are not sortable by default           
+            },
+
+            columns: [
+            {
+                    id: 'name',
+                    header: "name",
+                    width: 200,
+                    dataIndex: 'name',
+                    editor: new fm.TextField({
+                        allowBlank: false
+                    })
+            },
+
+            {
+                id: 'testNameSpacema__Student_Name__c',
+                header: "Full Name",
+                width: 200,
+                dataIndex: 'testNameSpacema__Student_Name__c',
+                editor: new fm.TextField({
+                        allowBlank: false
+                })
+            },
+
+            {
+                    id: 'testNameSpacema__Course_Name__c',
+                header: "Course Name",
+                width: 150,
+                dataIndex: 'testNameSpacema__Course_Name__c',
+                editor: new fm.TextField({
+                        allowBlank: false
+                })
+
+            },
+
+            {
+                    
+                    id: 'testNameSpacema__marks__c',
+                header: "Marks",
+                width: 100,
+                dataIndex: 'testNameSpacema__marks__c',
+                editor: new fm.TextField({
+                        allowBlank: false
+                })
+
+            },
+
+            {
+                    
+                id: 'testNameSpacema__Grade__c',
+                header: "Grade",
+                width: 100,
+                dataIndex: 'testNameSpacema__Grade__c',
+                
+
+            }
+            ]       
+        
+        
+        
+        
+        })
+    
+// CREATE THE GRID
+var grid = new Ext.grid.EditorGridPanel({store: store, cm: grcm , clicksToEdit: 1,stripeRows:true,  height: 500, stripeRows:true, width: 750, title: 'MY EXT JS STUDENTS LIST'}); 
+
+grid.render('myStudentList-grid');
+});
+</script> 
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+        
+        </tr>
+        <tr>
+            <td>
+                <div id="myStudentList-grid"></div>
+             </td>
+            </tr>
+            
+</table>
+ </apex:page>

@@ -1,0 +1,8 @@
+<apex:page controller="TestUseBean">
+<apex:dataTable value="{!ls}" var="con">
+<apex:column headerValue="FirstName" value="{!con.firstName}" />
+<apex:column headerValue="LastName" value="{!con.lastName}" />
+<apex:column headerValue="City" value="{!con.city}" />
+
+</apex:dataTable>
+</apex:page>

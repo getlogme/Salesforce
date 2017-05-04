@@ -1,0 +1,243 @@
+<apex:page controller="StudentDetailsController" >
+
+<style type="text/css">
+       .customPopup{
+            background-color: white;
+            border-style: solid;
+            border-width: 2px;
+            left: 50%;
+            padding:10px;
+            position: absolute;
+            z-index: 9999;
+            /* These are the 3 css properties you will need to tweak so the pop 
+            up displays in the center of the screen. First set the width. Then set 
+            margin-left to negative half of what the width is. You can also add 
+            the height property for a fixed size pop up.*/
+            width: 500px;
+            width: 500px;
+            margin-left: -250px;
+            top:100px;
+        }
+    </style>
+
+
+
+ <link rel="Stylesheet" type="text/css" href="{!$Resource.extjs}/ext-3.1.1/resources/css/ext-all.css" />
+ <script type="text/javascript" src="{!$Resource.extjs}/ext-3.1.1/adapter/ext/ext-base.js"></script>
+ <script type="text/javascript" src="{!$Resource.extjs}/ext-3.1.1/ext-all.js"></script>
+ <script type="text/javascript" src="{!$Resource.extjs}/ext-3.1.1/ext-all-debug.js"></script>
+ 
+<script type="text/javascript">
+var strNames=''; 
+    Ext.onReady(function(){
+    var Checkbox = new Ext.grid.CheckboxSelectionModel({
+    locked: true,
+    isLocked: Ext.emptyFn,
+    initEvents : function(){
+        Ext.grid.CheckboxSelectionModel.superclass.initEvents.call(this);
+        this.grid.on('render', function(){
+            var view = this.grid.getView();
+            view.mainBody.on('mousedown', this.onMouseDown, this);
+            //Ext.fly(view.lockedInnerHd).on('mousedown', this.onHdMouseDown, this);
+        }, this);
+    }
+});
+   // var Checkbox = new Ext.grid.CheckboxSelectionModel();
+     var fm = Ext.form;
+    var myDataString = 'var myData = [ ';
+        <apex:repeat value="{!studentDetails}" var="con" id="ContactRepeat">
+            myDataString += "['{!con.name}','{!con.Student_Name__c}','{!con.Course_Name__c}','{!con.marks__c}','{!con.Grade__c}'],";
+        </apex:repeat>
+        myDataString += "['','','','',''] ];";
+        eval(myDataString);
+        var store = new Ext.data.SimpleStore({fields:[{name:'name'},{name:'testNameSpacema__Student_Name__c'},{name:'testNameSpacema__Course_Name__c'},{name:'testNameSpacema__marks__c'},{name:'testNameSpacema__Grade__c'}]});
+        store.loadData(myData);
+        //CREATES GRID Columns
+        var grcm=new Ext.grid.ColumnModel({
+            defaults: {
+            sortable: true // columns are not sortable by default           
+            },
+
+            columns: [Checkbox,
+            {
+                    id: 'name',
+                    header: ' name<br><select name='test'><option>Test</option><option>Test1</option><option>Test2</option></select>',
+                    sortable: false,
+                    width: 200,
+                    dataIndex: 'name',
+                    editor: new fm.TextField({
+                        allowBlank: false
+                    })
+            },
+
+            {
+                id: 'testNameSpacema__Student_Name__c',
+                header: "Full Name",
+                width: 200,
+                dataIndex: 'testNameSpacema__Student_Name__c',
+                editor: new fm.TextField({
+                        allowBlank: false
+                })
+            },
+
+            {
+                    id: 'testNameSpacema__Course_Name__c',
+                header: "Course Name",
+                width: 150,
+                dataIndex: 'testNameSpacema__Course_Name__c',
+                editor: new fm.TextField({
+                        allowBlank: false
+                })
+
+            },
+
+            {
+                    
+                    id: 'testNameSpacema__marks__c',
+                header: "Marks",
+                width: 100,
+                dataIndex: 'testNameSpacema__marks__c',
+                editor: new fm.TextField({
+                        allowBlank: false
+                })
+
+            },
+
+            {
+                    
+                id: 'testNameSpacema__Grade__c',
+                header: "Grade",
+                width: 100,
+                dataIndex: 'testNameSpacema__Grade__c'
+                
+
+            }
+            ]       
+        
+        
+        
+        
+        })
+    
+// CREATE THE GRID
+
+var grid = new Ext.grid.EditorGridPanel({store: store,clicksToEdit:2,sm: Checkbox, 
+    tbar: [
+    {
+    text: 'Update All',
+    handler: function(){
+    alert('test')
+    
+    },
+   items: [{
+        editor: new fm.TextField({
+                        allowBlank: false
+                })
+        
+    }]
+    }],
+    listeners: { afteredit:{
+    fn: function(object, changes, r, rowIndex) {
+      var cm = object.grid.colModel, fields = object.value;
+      alert('test'+fields);
+      alert('record'+object.row);
+      
+
+    //grid.getSelectionModel().selectFirstRow() 
+    }}},
+    cm: grcm , clicksToEdit: 'auto',stripeRows:true, enableHdMenu:false, height: 500, stripeRows:true, width: 750, title: 'MY EXT JS STUDENTS LIST'}); 
+
+grid.render('myStudentList-grid');
+grid.getSelectionModel().on('selectionchange', function(sm){
+     //alert('test'+sm.getSelections().length);
+     //for(var i=0;i<sm.getSelections().length;i++){
+     //alert(sm.getSelections()[sm.getSelections().length-1].get('name')); 
+     
+    // alert(sm.getSelections());
+     //alert(sm.getSelections().length-1);
+     //  alert(sm.checked);
+          
+     if(sm.getSelections()!=null || sm.getSelections()!=''){
+         if(strNames==''){         
+             strNames=sm.getSelections()[sm.getSelections().length-1].get('name');
+         }else{
+                 if(sm.getSelections().length>0){
+                     strNames+='~'+sm.getSelections()[sm.getSelections().length-1].get('name');
+                 }
+         }
+     }
+     
+    //}
+     //alert('strNames'+strNames);
+        //  setAllNames(strNames); 
+         
+        });
+           
+   
+});
+
+function fnUpdate(allNames){
+//alert('-------');
+//alert('-------'+strNames);
+document.getElementById(allNames).value=strNames;
+//setAllNames(strNames); 
+}
+</script> 
+<table width="100%" cellpadding="0" cellspacing="0">
+    <tr>
+        <td>&nbsp;</td>
+   </tr>
+   <tr>
+        <td>
+            <apex:form >
+                 
+             <apex:commandButton value="Update All" action="{!showPopup}" rerender="popup"/>
+        
+ 
+        <apex:outputPanel id="popup" styleClass="customPopup" layout="none">
+            <apex:outputPanel styleClass="customPopup" layout="block" rendered="{!displayPopUp}">
+                 
+                 <apex:outputLabel value="Grade"></apex:outputLabel> &nbsp;&nbsp;: &nbsp;&nbsp;
+            
+                <apex:selectList value="{!status}"  size="1">
+                    <apex:selectOption itemLabel="--Select--" itemValue="select"/>
+                    <apex:selectOption itemLabel="Excellent" itemValue="Excellent"/>
+                    <apex:selectOption itemLabel="Very Good" itemValue="Very Good"/>
+                    <apex:selectOption itemLabel="Good" itemValue="Good"/>
+                    <apex:selectOption itemLabel="Poor" itemValue="Poor"/>
+                </apex:selectList>
+                <br></br>
+                <br></br>
+                 <apex:outputLabel value="Marks"></apex:outputLabel> &nbsp;&nbsp;: &nbsp;&nbsp;
+                 <apex:inputText id="marks" value="{!marks}" />
+                 <br></br>
+                <br></br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                <apex:commandButton value="Update"  action="{!updateAll}" onclick="fnUpdate('{!$Component.allNames}')">
+                 </apex:commandButton>
+                 &nbsp;&nbsp;&nbsp;
+                  <apex:commandButton value="Close"  action="{!closePopup}" >
+                 </apex:commandButton>
+
+            <apex:inputHidden id="allNames" value="{!allNames}"/>
+
+            </apex:outputPanel>
+        </apex:outputPanel>
+                      
+           </apex:form>
+
+        </td>
+     </tr>
+   
+   <tr>
+        <td>&nbsp;</td>
+   </tr>
+   
+        <tr>
+            <td>
+                <div id="myStudentList-grid"></div>
+             </td>
+            </tr>
+            
+</table>
+ </apex:page>

@@ -1,0 +1,96 @@
+<apex:page showHeader="false" sidebar="false" >
+
+<apex:form id="frm"> 
+ <script>
+  timeImageMap = {'bubble-bottom-arrow.png':'015g00000004n6D', 
+                    'bubble-bottom-left.png':'015g00000004n6I',
+                    'bubble-bottom-right.png':'015g00000004n6N', 
+                    'bubble-bottom.png':'015g00000004n6S', 
+                    'bubble-left-arrow.png':'015g00000004n6X', 
+                    'bubble-right-arrow.png':'015g00000004n6c', 
+                    'bubble-left.png':'015g00000004n6h', 
+                    'bubble-top-left.png':'015g00000004n6m', 
+                    'bubble-top.png':'015g00000004n6r', 
+                    'bubble-top-arrow.png':'015g00000004n6i', 
+                    'bubble-top-right.png':'015g00000004n6w', 
+                    'bubble-right.png':'015g00000004n71', 
+                    'close-button.png':'015g00000004n6E',                                       
+                    'copyright-vertical.png':'015g00000004n6d',
+                    'copyright.png':'015g00000004n76' };                    
+        
+</script>
+<apex:includeScript value="{!$Resource.timelineJS}"/>
+<apex:stylesheet value="{!$Resource.timelineCSS}"/>
+<script src="/soap/ajax/15.0/connection.js" type="text/javascript"></script>
+<script src="/soap/ajax/15.0/apex.js" type="text/javascript"></script>
+
+<script>
+
+var tl;
+var theTimeLine; 
+var eventsource;
+var baseURL = window.location.protocol + '//' + window.location.hostname;
+var today = new Date();
+var year = today.getFullYear();        
+var minDate = "Jan 01 "+ year + " 00:00:00 GMT";
+var maxDate = "Dec 31 "+ year + " 00:00:00 GMT";        
+
+function onLoad() {
+//sforce.connection.sessionId = '{!$Api.Session_ID}';
+
+  alert('tetetetetet');
+    eventSource = new Timeline.DefaultEventSource();
+    var theme = Timeline.ClassicTheme.create(); 
+    theme.event.label.width = 200; // px
+    //theme.event.bubble.width = 600;
+    //theme.event.bubble.height = 400;
+    //theme.event.bubble.close = true;
+    theme.event.label.width = 300;
+    theme.ether.backgroundColors.unshift("#F8F8F8"); 
+    
+  var bandInfos = [
+    Timeline.createBandInfo({
+        eventSource:    eventSource,
+        width:          "70%", 
+        intervalUnit:   Timeline.DateTime.MONTH, 
+        intervalPixels: 80,
+        MinVisibleDate:     Timeline.DateTime.parseGregorianDateTime(minDate),
+        MaxVisibleDate:     Timeline.DateTime.parseGregorianDateTime(maxDate),
+        theme: theme    
+
+    }),
+    Timeline.createBandInfo({
+        width:          "30%", 
+        intervalUnit:   Timeline.DateTime.YEAR, 
+        intervalPixels: 200,
+        trackHeight: 0.5,    
+        trackGap: 0.2
+    })
+  ];
+  bandInfos[1].syncWith = 0; 
+  bandInfos[1].highlight = true; 
+
+  alert('gdgdgdgdg'+document.getElementById("my-timeline"));
+  alert('bandInfos'+bandInfos);
+  tl = Timeline.create(document.getElementById("my-timeline"), bandInfos);
+ alert(tl);
+ tl.paint();
+ }
+
+var resizeTimerID = null;
+function onResize() {
+    if (resizeTimerID == null) {
+        resizeTimerID = window.setTimeout(function() {
+            resizeTimerID = null;
+            tl.layout();
+        }, 500);
+    }
+}
+window.onload = function() {setTimeout("onLoad()", 10);}              
+
+</script>
+ 
+<div id="my-timeline" style="height: 150px; border: 1px solid #aaa"></div>
+<noscript> This page uses Javascript to show you a Timeline. Please enable Javascript in your browser to see the full page. Thank you. </noscript>
+</apex:form>      
+</apex:page>

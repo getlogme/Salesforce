@@ -1,0 +1,11 @@
+<apex:page controller="testSearch">
+   <apex:pageBlock title="Student Search results page">
+        <apex:pageBlockTable value="{!listofstudobjs}" var="stud">
+           <apex:column value="{!stud.name}"/> 
+           <apex:column value="{!stud.Student_Name__c}"/>
+           <apex:column value="{!stud.marks__c}"/>
+           <apex:column value="{!stud.Grade__c}"/>
+           <apex:column value="{!stud.Course_Name__c}"/>
+         </apex:pageBlockTable> 
+    </apex:pageBlock> 
+ </apex:page>

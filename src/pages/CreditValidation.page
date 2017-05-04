@@ -1,0 +1,208 @@
+<apex:page controller="CreditValidation" id="page">
+<script language="javascript">
+    function disable(val){
+    if(val.checked==true){
+        
+        document.getElementById('page:frm:pageBlk:pageBlkSct:pBlkSctItm:dob').disabled="true";
+        document.getElementById('page:frm:pageBlk:pageBlkSct:pBlkSctItm1:ssn').disabled="true";
+    }else{
+        
+        document.getElementById('page:frm:pageBlk:pageBlkSct:pBlkSctItm:dob').disabled=false;
+        document.getElementById('page:frm:pageBlk:pageBlkSct:pBlkSctItm1:ssn').disabled=false;
+    }
+    }
+    
+    function validate(){
+    
+        var noCreditChk=document.getElementById('page:frm:pageBlk:pageBlkSct:pBlkSctItm2:noCrdCheck').checked;
+        var ssnVal=document.getElementById('page:frm:pageBlk:pageBlkSct:pBlkSctItm1:ssn').value;
+        var accountIdVal=document.getElementById('page:frm:pageBlk:pageBlkSct1:pageBlkSctItm1:existingAccID').value;
+        var dobVal=document.getElementById('page:frm:pageBlk:pageBlkSct:pBlkSctItm:dob').value;
+        var firstName=document.getElementById('page:frm:pageBlk:pageBlkSct:pBlkSctItm4:fName').value;
+        var lastName=document.getElementById('page:frm:pageBlk:pageBlkSct:pBlkSctItm3:lName').value;
+       
+        if(firstName==''){
+            alert('Enter first name');
+            return false;
+        }
+        if(lastName==''){
+            alert('Enter last name');
+            return false;
+        }
+        
+                
+        if(noCreditChk==false){
+            if(dobVal==''){
+            alert('Enter Date Of Birth');
+                return false;
+            }
+            if(ssnVal==''){
+            alert('Enter SSN');
+                return false;
+            }
+            if(ssnVal!=null && ssnVal.length>0 && ssnVal.length<4){
+                alert('Enter last 4 digits of SSN');
+                return false;
+            }
+            if(isNaN(ssnVal)){
+                 alert('Enter only numbers in SSN');
+                 return false;
+            }
+            if(accountIdVal.length>0 && accountIdVal.length<10){
+                alert('Enter 10 digits of Account Number');
+                return false;
+            }
+            if(dobVal!=null){
+                  
+                  var dateFlag=ValidateForm(dobVal);  
+                  return dateFlag;
+            }
+            
+        }
+        
+        return true;
+    }
+    
+var dtCh= "/";
+var minYear=1900;
+var maxYear=2100;
+
+function isInteger(s){
+    var i;
+    for (i = 0; i < s.length; i++){   
+        // Check that current character is number.
+        var c = s.charAt(i);
+        if (((c < "0") || (c > "9"))) return false;
+    }
+    // All characters are numbers.
+    return true;
+}
+
+function stripCharsInBag(s, bag){
+    var i;
+    var returnString = "";
+    // Search through strings characters one by one.
+    // If character is not in bag, append to returnString.
+    for (i = 0; i < s.length; i++){   
+        var c = s.charAt(i);
+        if (bag.indexOf(c) == -1) returnString += c;
+    }
+    return returnString;
+}
+
+function daysInFebruary (year){
+    // February has 29 days in any year evenly divisible by four,
+    // EXCEPT for centurial years which are not also divisible by 400.
+    return (((year % 4 == 0) && ( (!(year % 100 == 0)) || (year % 400 == 0))) ? 29 : 28 );
+}
+function DaysArray(n) {
+    for (var i = 1; i <= n; i++) {
+        this[i] = 31
+        if (i==4 || i==6 || i==9 || i==11) {this[i] = 30}
+        if (i==2) {this[i] = 29}
+   } 
+   return this
+}
+
+function isDate(dtStr){
+    var daysInMonth = DaysArray(12)
+    var pos1=dtStr.indexOf(dtCh)
+    var pos2=dtStr.indexOf(dtCh,pos1+1)
+    var strMonth=dtStr.substring(0,pos1)
+    var strDay=dtStr.substring(pos1+1,pos2)
+    var strYear=dtStr.substring(pos2+1)
+    strYr=strYear
+    if (strDay.charAt(0)=="0" && strDay.length>1) strDay=strDay.substring(1)
+    if (strMonth.charAt(0)=="0" && strMonth.length>1) strMonth=strMonth.substring(1)
+    for (var i = 1; i <= 3; i++) {
+        if (strYr.charAt(0)=="0" && strYr.length>1) strYr=strYr.substring(1)
+    }
+    month=parseInt(strMonth)
+    day=parseInt(strDay)
+    year=parseInt(strYr)
+    if (pos1==-1 || pos2==-1){
+        alert("The date format should be : mm/dd/yyyy")
+        return false
+    }
+    if (strMonth.length<1 || month<1 || month>12){
+        alert("Please enter a valid month")
+        return false
+    }
+    if (strDay.length<1 || day<1 || day>31 || (month==2 && day>daysInFebruary(year)) || day > daysInMonth[month]){
+        alert("Please enter a valid day")
+        return false
+    }
+    if (strYear.length != 4 || year==0 || year<minYear || year>maxYear){
+        alert("Please enter a valid 4 digit year between "+minYear+" and "+maxYear)
+        return false
+    }
+    if (dtStr.indexOf(dtCh,pos2+1)!=-1 || isInteger(stripCharsInBag(dtStr, dtCh))==false){
+        alert("Please enter a valid date")
+        return false
+    }
+return true
+}
+
+function ValidateForm(dtValue){
+
+    if (isDate(dtValue)==false){
+        document.getElementById('page:frm:pageBlk:pageBlkSct:pBlkSctItm:dob').focus()
+        return false
+    }
+    return true
+ }
+
+</script>
+  <apex:form id="frm" > 
+  <apex:pageBlock id="pageBlk" title="Credit Validation">
+      <apex:pageBlockButtons location="top">
+          <apex:commandButton action="{!next}" value="Next" onclick=" return validate()"/>
+          <apex:commandButton action="{!back}" value="Back" immediate="true"/>
+          <apex:commandButton action="{!cancel}" value="Cancel" immediate="true"/>
+      </apex:pageBlockButtons>
+      <apex:pageBlockSection title="Personal Information" collapsible="false" columns="2" id="pageBlkSct">
+          <apex:pageBlockSectionItem id="pBlkSctItm4" >
+              <apex:outputLabel >First Name <font color="red">*</font></apex:outputLabel>
+              <apex:inputText value="{!fName}" id="fName" />
+          </apex:pageBlockSectionItem>
+          <apex:pageBlockSectionItem id="pBlkSctItm" >
+              <apex:outputLabel >Date Of Birth <br/>(mm/dd/yyyy)<font color="red">*</font></apex:outputLabel>
+              <apex:inputText value="{!dob}" id="dob" />  
+           </apex:pageBlockSectionItem>
+           
+          <apex:pageBlockSectionItem >
+              <apex:outputLabel >M.I </apex:outputLabel>
+              <apex:inputText value="{!mi}" maxlength="1" size="5"/>
+          </apex:pageBlockSectionItem>
+          <apex:pageBlockSectionItem id="pBlkSctItm1">
+              <apex:outputLabel >Last 4 digits of SSN<font color="red">*</font></apex:outputLabel>
+              <apex:inputText value="{!ssn}" maxlength="4" size="10" id="ssn"/>
+          </apex:pageBlockSectionItem>
+          <apex:pageBlockSectionItem id="pBlkSctItm3">
+              <apex:outputLabel >Last Name <font color="red">*</font></apex:outputLabel>
+              <apex:inputText value="{!lName}" id="lName"/>
+          </apex:pageBlockSectionItem>
+          <apex:pageBlockSectionItem id="pBlkSctItm2" >
+              <apex:inputCheckbox value="{!noCreditCheck}" onclick="disable(this)"  id="noCrdCheck"/>
+              <apex:outputLabel >Do not perform a Credit Check<br/>
+              
+              </apex:outputLabel>
+              
+              
+          </apex:pageBlockSectionItem>
+          
+          
+      </apex:pageBlockSection>
+      <apex:pageBlockSection id="pageBlkSct1" title="Do you have existing Account ID" columns="2" collapsible="false">
+          <apex:pageBlockSectionItem id="pageBlkSctItm1" >
+              <apex:outputLabel >Existing Account ID</apex:outputLabel>
+              <apex:inputText value="{!existingAccID}" id="existingAccID"/>
+          </apex:pageBlockSectionItem>
+          <apex:pageBlockSectionItem >
+              <apex:outputLabel >&nbsp;</apex:outputLabel>
+              
+          </apex:pageBlockSectionItem>
+      </apex:pageBlockSection>
+  </apex:pageBlock>
+  </apex:form>
+</apex:page>

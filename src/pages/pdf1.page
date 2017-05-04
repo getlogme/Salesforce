@@ -1,0 +1,28 @@
+<apex:page standardStylesheets="false" showHeader="false" sidebar="false" renderAs="pdf" >
+  <html>
+      <head>
+          <style type="text/css">
+              @page{
+                
+                @top-left{ content:url('{!$Resource.calcon}')'TL' ; border: solid green;height:330px; }
+                @top-center{ content: "top-center"; border: solid green;height:330px; }
+                @top-right { content: "top-right "; border: solid green;height:330px; }
+                
+                
+                @left-top{ content: "LT"; border: solid green;height:330px; }
+                @left-middle { content: "LM "; border: solid green;height:330px; }
+                @left-bottom{ content: "LB"; border: solid green;height:330px; }
+                
+                
+                @right-top{ content: "RT"; border: solid green;height:330px; }
+                @right-middle { content: "RM "; border: solid green;height:330px; }
+                @right-bottom{ content: "RB"; border: solid green;height:330px; }
+                
+                @top-right-corner { content: url('{!$Resource.calcon}'); border: solid green; }
+                @bottom-right-corner { content: counter(page); border: solid green; }
+                @bottom-left-corner { content: normal; border: solid green; } 
+              }
+          </style>
+      </head>
+  </html>
+</apex:page>

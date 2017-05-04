@@ -1,0 +1,10 @@
+<apex:page controller="SortList">
+    <apex:pageBlock title="UnOrder List">
+        <apex:pageBlockTable value="{!unOrderList}" var="uno">
+            <apex:column value="{!uno.name}"/>
+            <apex:column value="{!uno.createdDate}"/>
+
+        </apex:pageBlockTable>
+    
+    </apex:pageBlock>
+</apex:page>

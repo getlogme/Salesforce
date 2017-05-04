@@ -1,0 +1,10 @@
+<apex:page controller="UploadCSV">
+<apex:form > 
+    <apex:pageBlock > 
+         <apex:pageBlockSection columns="4"> 
+              <apex:inputFile value="{!csvFileBody}"  filename="{!fileName}"/>
+              <apex:commandButton value="Read & Validate Data" action="{!validateCSVFile}"/>
+         </apex:pageBlockSection>
+     </apex:pageBlock>
+ </apex:form>
+</apex:page>

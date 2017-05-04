@@ -1,0 +1,5 @@
+<apex:page controller="MyClass"> 
+
+Selected status = "{!isSelected}"
+
+</apex:page>

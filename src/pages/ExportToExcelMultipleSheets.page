@@ -1,0 +1,51 @@
+<apex:page standardController="Master_Object__c" extensions="ExportToExcelMultipleSheets" sidebar="false" showHeader="false" contentType="txt/xml#myTest.xls" >
+<apex:outputText value="{!xlsHeader}"/>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <Styles>
+ <Style ss:ID="s1">
+ <Alignment/>
+ <Borders/>
+ <Font ss:Bold="1"/>
+ <Interior/>
+ <NumberFormat/>
+ <Protection/>
+ </Style>
+ </Styles>
+ <Worksheet ss:Name="Master Record">
+ <Table x:FullColumns="1" x:FullRows="1">
+ <Column ss:Width="170"/>
+ <Row>
+ <Cell ss:StyleID="s1"><Data ss:Type="String" >Account Name</Data></Cell>
+ </Row>
+ <apex:repeat value="{!masterList}" var="master">
+ <Row>
+ <Cell><Data ss:Type="String">{!master.name}</Data></Cell>
+ </Row>
+ </apex:repeat>
+ </Table>
+ </Worksheet>
+ <Worksheet ss:Name="Detail Records">
+ <Table x:FullColumns="1" x:FullRows="1">
+ <Column ss:Width="170"/>
+ <Column ss:Width="280"/>
+ 
+ <Row>
+ <Cell ss:StyleID="s1"><Data ss:Type="String" >Detail Name</Data></Cell>
+ <Cell ss:StyleID="s1"><Data ss:Type="String" >Id</Data></Cell>
+ 
+ </Row>
+ <apex:repeat value="{!detailsList}" var="detail">
+ <Row>
+ <Cell><Data ss:Type="String">{!detail.name}</Data></Cell>
+ <Cell><Data ss:Type="String">{!detail.Id}</Data></Cell>
+ 
+ </Row>
+ </apex:repeat>
+ </Table>
+ </Worksheet>
+</Workbook>
+</apex:page>

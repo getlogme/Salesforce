@@ -1,0 +1,79 @@
+<apex:page standardController="Student_Details__c"  recordSetVar="details" >
+<script>
+var inChbox;
+</script>
+<div id="divId">
+    <apex:outputLink value="/secur/logout.jsp" >Logout</apex:outputLink>
+   <apex:form >
+       <apex:selectList value="{!filterid}" size="1">
+           <apex:actionSupport event="onchange" rerender="list"/>
+           <apex:selectOptions value="{!listviewoptions}"/>
+       </apex:selectList>
+       <apex:commandButton value="Go" action="{!list}"/>
+   </apex:form>
+      <apex:pageBlock title="Viewing Accounts">
+  <apex:form >
+    <apex:pageBlockSection >
+     
+      <apex:pageBlockTable var="a" value="{!details}" id="list">
+         <apex:column >
+             <apex:facet name="header"><apex:inputCheckbox id="selAll" onclick="checkAll(this)" /></apex:facet>
+             <apex:inputCheckbox id="selectedValField"  onclick="checkAll1(this,'{!$Component.selAll}')" />
+         </apex:column>
+        <apex:column value="{!a.name}"/>  
+        <apex:column value="{!a.Student_Name__c}"/> 
+        <apex:column value="{!a.Course_Name__c}"/> 
+              </apex:pageBlockTable>
+              
+      </apex:pageBlockSection>
+    <apex:panelGrid columns="4">
+     <apex:commandLink action="{!first}">First</apex:commandlink>
+      <apex:commandLink action="{!previous}">Previous</apex:commandlink>
+      <apex:commandLink action="{!next}">Next</apex:commandlink>
+      <apex:commandLink action="{!last}">Last</apex:commandlink>
+
+    </apex:panelGrid>
+  </apex:form> 
+  <script>
+          inChbox=document.getElementById("selAll");
+ //         alert(inChbox);
+  </script>
+
+  </apex:pageBlock>  
+  </div>
+
+
+
+ <script>
+function checkAll(test){
+inChbox=test.id;
+    var divObject=document.getElementById("divId");
+    var frmElements=divObject.getElementsByTagName("input");
+    if((frmElements!=null) && (frmElements.length>0)) {
+        var tempvar =frmElements.length;
+        var selectedIds="";
+        for(var i=0;i<tempvar;i++) {
+               
+                if(document.getElementById(test.id).checked==true){
+                   frmElements[i].checked=true;
+                }else{
+                    frmElements[i].checked=false;
+                }
+            
+        }
+    }
+}
+
+function checkAll1(test,test1){
+   // alert(test.id);
+   // alert(test1)
+   // alert(inChbox);
+    var recCheckBox=document.getElementById(test.id);
+    if(recCheckBox.checked==false){
+   // alert('inside');
+        document.getElementById(inChbox).checked=false;
+    }
+    }
+
+</script>
+</apex:page>

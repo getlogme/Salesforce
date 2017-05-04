@@ -1,0 +1,11 @@
+<apex:page standardController="Student_Details__c">
+<apex:tabPanel >
+<apex:tab label="Students" name="Students">
+<apex:relatedList subject="{!Student_Details__c}"   list="Java"/>
+</apex:tab>
+<apex:tab label="Students1" name="Students1">
+<apex:relatedList subject="{!Student_Details__c}"   list="Salesforce"/>
+</apex:tab>
+
+</apex:tabPanel>
+</apex:page>

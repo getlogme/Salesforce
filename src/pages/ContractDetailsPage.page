@@ -1,0 +1,23 @@
+<apex:page standardController="VGE_PL_Iteration__c" extensions="ContractDetails">
+<apex:form > 
+<apex:pageBlock title="Contract Details">
+    <apex:pageBlockButtons >
+        <apex:commandButton value="Save" action="{!save}"/>
+    </apex:pageBlockButtons>
+    <apex:pageBlockSection columns="1" collapsible="false">
+        <apex:pageBlockSectionItem > 
+         Current Contract End Date : <apex:inputField value="{!VGE_PL_Iteration__c.Current_Contract_End_Date__c}"/>
+        </apex:pageBlockSectionItem>
+        <apex:pageBlockSectionItem > 
+         New Contract Start Date :<apex:inputText value="{!oppDate}"/>
+        </apex:pageBlockSectionItem> 
+        <apex:pageBlockSectionItem > 
+         Current Contract Payment Terms : <apex:inputField value="{!VGE_PL_Iteration__c.Current_Contract_Payment_Terms__c}"/>
+        </apex:pageBlockSectionItem> 
+        <apex:pageBlockSectionItem > 
+         New Contract Payment Terms : <apex:inputField value="{!VGE_PL_Iteration__c.New_Contract_Payment_Terms__c}"/>
+        </apex:pageBlockSectionItem> 
+    </apex:pageBlockSection>
+</apex:pageBlock>
+</apex:form>
+</apex:page>

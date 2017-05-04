@@ -1,0 +1,6 @@
+<apex:page controller="DataListGBSOrg" id="thePage">
+        <apex:dataList value="{!GbsDataList}" var="account" id="theList">
+                <apex:outputText value="{!account.Invoice_Approver_Common_Name__c}"/>
+                <apex:outputText value="{!account.Invoice_Vendor_LONG_Name_SAP__c}"/>
+        </apex:dataList>
+</apex:page>

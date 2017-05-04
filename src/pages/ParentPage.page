@@ -1,0 +1,14 @@
+<apex:page >
+<script language="text/javascript">
+
+function showPopup() {
+window.open('/apex/donloadWord','Test')
+}
+</script>
+
+ Test
+<apex:message />
+ <apex:form > 
+     <apex:commandButton value="generateReport" onclick="window.open('/apex/donloadWord','_blank')"/>
+ </apex:form>
+</apex:page>

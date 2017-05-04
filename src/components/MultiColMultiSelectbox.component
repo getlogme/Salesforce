@@ -1,0 +1,51 @@
+<apex:component controller="McolMSelectboxController">
+    <style>
+        .odd{
+            background-color:#FCF7F7;
+        }
+        .even{
+            background-color:#E3DCDB;
+        }
+    </style>
+    <script>
+        function optionsAdd(){
+            alert('opt');
+            addOptions();
+        }
+    </script>
+        
+    <apex:actionFunction name="addOptions" action="{!addOpt}" reRender="lfId,rfId"/>
+    <apex:pageBlock >
+    <apex:pageMessages ></apex:pageMessages>
+        <apex:pageBlockSection columns="3" collapsible="false">
+     <apex:outputPanel id="lfId" layout="block" style="overflow:auto;height:100px;width:400px;border-width:2px;border:solid 2px #444;border-radius:5px" >
+        <apex:pageBlockTable value="{!leftOptions}" var="lf">
+            <apex:column >
+            <apex:inputCheckbox value="{!lf.selected}"/>
+            </apex:column>
+            <apex:column value="{!lf.Name}" headerValue="Name"/>
+            <apex:column value="{!lf.phone}" headerValue="Phone"/>
+        </apex:pageBlockTable>
+    </apex:outputPanel>
+    <apex:outputPanel style="width:100px;">
+        
+        <apex:panelGrid >
+            <apex:commandButton value="Add>>" action="{!addOpt}"  onclick="optionsAdd();" />
+            <apex:commandButton value="Remove" action="{!remove}"/>
+        </apex:panelGrid>    
+    </apex:outputPanel>
+     <apex:outputPanel id="rfId" layout="block" style="overflow:auto;height:100px;width:400px;border-width:2px;border:solid 2px #444;border-radius:5px">
+        <apex:dataTable value="{!rightOptions}" var="rf" rowClasses="even,odd">
+            <apex:column >
+            <apex:inputCheckbox value="{!rf.selected}"/>
+            </apex:column>
+            <apex:column value="{!rf.Name}" headerValue="Name"/>
+            <apex:column value="{!rf.phone}" headerValue="Phone"/>
+        </apex:dataTable>
+    </apex:outputPanel>
+        
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+    
+   
+</apex:component>

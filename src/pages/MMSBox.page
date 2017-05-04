@@ -1,0 +1,110 @@
+<apex:page controller="McolMSelectboxController" sidebar="false" showHeader="false" id="thePage">
+  <style>
+        .odd{
+            background-color:#FCF7F7;
+        }
+        .even{
+            background-color:#E3DCDB;
+        }
+    </style>
+<script>
+    function fillIn()
+    {
+       var primaryAccId='';
+       var secAccId='';
+       var accName='';
+      //gets table
+      var oTable = document.getElementById('thePage:frm:pblk:pbSec:rTable');
+
+      //gets rows of table
+      var rowLength = oTable.rows.length;
+
+    //loops through rows    
+    for (i = 1; i < rowLength; i++){
+
+    //gets cells of current row
+    var oCells = oTable.rows.item(i).cells;
+
+    //gets amount of cells of current row
+    var cellLength = oCells.length;
+    
+    var cell4Val=oCells.item(4).innerText;
+    var cell1Val=oCells.item(1).innerHTML.indexOf('checked');
+    if(cell1Val== -1){
+        secAccId=secAccId+cell4Val+';';    
+    }else{
+        primaryAccId=cell4Val;
+        accName=oCells.item(2).innerText;
+    }
+           
+    }
+      var winMain=window.opener;
+      if (null==winMain)
+      {
+         winMain=window.parent.opener;
+      }
+      var ele=winMain.document.getElementById('{!$CurrentPage.parameters.namefield}');
+      ele.value=accName;
+      ele=winMain.document.getElementById('{!$CurrentPage.parameters.idfield}');
+      ele.value=primaryAccId;
+      ele=winMain.document.getElementById('{!$CurrentPage.parameters.idfield1}');
+      ele.value=secAccId;
+      CloseWindow();
+   }
+ 
+   function CloseWindow()
+   {
+      var winMain=window.opener;
+      if (null==winMain)
+      {
+         winMain=window.parent.opener;
+      }
+      winMain.closeLookupPopup();
+   }
+</script>   
+    <apex:form id="frm"> 
+    
+    <apex:pageBlock id="pblk">
+    <apex:pageBlockButtons >
+        <apex:commandButton value="Save" onClick="fillIn()"/>
+        <apex:commandButton value="Cancel" action="{!cancel}"/>
+    </apex:pageBlockButtons>
+    <apex:pageMessages ></apex:pageMessages>
+     <apex:pageBlockSection columns="3" collapsible="false" id="pbSec">
+     <apex:outputPanel id="lfId" layout="block" style="overflow:auto;height:200px;width:400px;border-width:2px;border:solid 2px #444;border-radius:5px" >
+        <apex:pageBlockTable value="{!leftOptions}" var="lf">
+            <apex:column >
+            <apex:inputCheckbox value="{!lf.selected}"/>
+            </apex:column>
+            <apex:column value="{!lf.accId}" rendered="false"/>
+            <apex:column value="{!lf.Name}" headerValue="Name"/>
+            <apex:column value="{!lf.phone}" headerValue="Phone"/>
+        </apex:pageBlockTable>
+    </apex:outputPanel>
+    <apex:outputPanel style="width:100px;">        
+        <apex:panelGrid >
+            <apex:commandButton value="Add>>" action="{!addOpt}" reRender="frm"/>
+            <apex:commandButton value="<<Remove" action="{!remove}"/>
+        </apex:panelGrid>    
+    </apex:outputPanel>
+     <apex:outputPanel id="rfId" layout="block" style="overflow:auto;height:200px;width:400px;border-width:2px;border:solid 2px #444;border-radius:5px">
+        <apex:pageBlockTable value="{!rightOptions}" var="rf" id="rTable">
+            <apex:column >
+            <apex:inputCheckbox value="{!rf.selected}"/>
+            </apex:column>
+            <apex:column >
+            <apex:facet name="header">Primary</apex:facet>
+            <apex:inputCheckbox value="{!rf.primary}"/>
+            </apex:column>
+            
+            <apex:column value="{!rf.Name}" headerValue="Name"/>
+            <apex:column value="{!rf.phone}" headerValue="Phone"/>
+            <apex:column value="{!rf.accId}" headerValue=""/>
+        </apex:pageBlockTable>
+    </apex:outputPanel>
+        
+        </apex:pageBlockSection>
+    </apex:pageBlock>
+    
+  </apex:form>  
+</apex:page>

@@ -1,0 +1,3 @@
+<apex:page controller="NewWebserviceTest">
+  <apex:outputLabel value="{!respString}"></apex:outputLabel>
+</apex:page>

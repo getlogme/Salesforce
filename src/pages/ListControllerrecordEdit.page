@@ -1,0 +1,37 @@
+<apex:page standardController="Student_Details__c" recordSetVar="details" tabStyle="Opportunity" sidebar="false">
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pageMessages />
+            <apex:pageBlockButtons >
+                <apex:commandButton value="Save" action="{!save}"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!details}" var="opp"  >
+                <apex:column value="{!opp.name}" />
+                <apex:column headerValue="Full Name">
+                    <apex:inputField value="{!opp.Student_Name__c}" />
+                    <apex:actionSupport event="onmouseover"  reRender="detailtag">
+                    <apex:param name="sid" value="{!opp.id}"/>
+                    </apex:actionSupport>
+                </apex:column>
+                <apex:column headerValue="Course Name">
+                    <apex:inputField value="{!opp.Course_Name__c}"/>
+                </apex:column>
+            </apex:pageBlockTable>   
+            <apex:panelGrid columns="2">
+              <apex:commandLink action="{!previous}">Previous</apex:commandlink>
+              <apex:commandLink action="{!next}">Next</apex:commandlink>
+            </apex:panelGrid>
+          </apex:pageBlock>
+        
+    </apex:form>
+   <apex:outputPanel id="detailtag">
+        <apex:actionStatus startText="Requesting...">
+            <apex:facet name="stop">
+                <apex:detail subject="{!$CurrentPage.parameters.sid}" relatedList="false" 
+                                title="false"/>
+            </apex:facet>
+        </apex:actionStatus>
+    </apex:outputPanel>
+
+
+</apex:page>

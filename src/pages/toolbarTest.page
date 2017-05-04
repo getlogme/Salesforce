@@ -1,0 +1,31 @@
+<apex:page id="anotherPage">
+
+<!-- A simple toolbar that includes toolbar events.  -->
+
+  <apex:pageMessages />
+
+  <apex:form >
+
+    <apex:toolbar onclick="alert('You clicked the mouse button on a component in the toolbar.')"
+
+          onkeydown="alert('You pressed a keyboard key in a component in the toolbar.')"
+
+          onitemclick="alert('You clicked the mouse button on a component that is ' +
+
+                              'not in a toolbarGroup.')"
+
+          onitemkeydown="alert('You pressed a keyboard key in a component that is ' +
+
+                                'not in a toolbarGroup.')">
+
+      <apex:inputText />
+
+      Click outside of a toolbargroup
+
+      <apex:toolbarGroup ><apex:inputText />Click in a toolbarGroup</apex:toolbarGroup>
+
+    </apex:toolbar>
+
+  </apex:form>
+
+</apex:page>

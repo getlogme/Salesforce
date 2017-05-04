@@ -1,0 +1,5 @@
+<apex:page standardController="Employee1__c" >
+  <apex:form >
+      <apex:inputField value="{!Employee1__c.Emp_Name__c}" />
+  </apex:form>
+</apex:page>

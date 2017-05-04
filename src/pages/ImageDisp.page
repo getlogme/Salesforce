@@ -1,0 +1,6 @@
+<apex:page controller="ImageDisp">
+<apex:image value="https://c.ap1.content.force.com/servlet/rtaImage?eid=a0o90000000dJRA&amp;feoid=00N90000004FJtK&amp;refid=0EM900000004Sth"/>
+ <apex:repeat value="{!prodList}" var="im">
+     {!im.Image__c}
+ </apex:repeat>
+</apex:page>

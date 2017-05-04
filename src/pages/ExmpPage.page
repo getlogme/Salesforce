@@ -1,0 +1,5 @@
+<apex:page showHeader="false" sidebar="false">
+  <apex:composition template="templateTest">
+      <apex:define name="body"> Test Examp Page Body</apex:define>
+  </apex:composition>
+</apex:page>
